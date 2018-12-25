@@ -46,37 +46,45 @@ const router = new Router({
             }
         },
         {
-            path: "/login", //登录页面
-            name: "login",
+            path: "/selectStore", //门店选择
+            name: "selectStore",
             component: (resolve) => {
-                require(['@/pages/login/login.vue'], resolve)
+                require(['@/pages/selectStore/selectStore.vue'], resolve)
             }
         },
     ],
 })
 
 router.beforeEach((to, from, next) => {
-    // if (to.matched.some(record => record.meta.login_require)) {
-    //     if (!sessionStorage.kaObj && to.path != '/login') {
-    //         next('/login')
-    //     } else {
-    //         next()
-    //     }
-    // } else {
+    if (to.matched.some(record => record.meta.login_require)) {
 
-    //     next()
-    // }
+        if (!sessionStorage.ischoose && to.path != '/selectStore') {
+            next('/selectStore')
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
     if (to.path == '/') {
-        store.commit('changeHeaderLeft', false)
+        store.commit('changeHeaderLeft', true)
+        store.commit('isHeaderFooterShow', true)
         next()
     } else if (to.path == '/list') {
         store.commit('changeHeaderLeft', true)
+        store.commit('isHeaderFooterShow', true)
         next()
     } else if (to.path == '/search') {
         store.commit('changeHeaderLeft', false)
+        store.commit('isHeaderFooterShow', true)
         next()
     } else if (to.path == '/detail') {
         store.commit('changeHeaderLeft', true)
+        store.commit('isHeaderFooterShow', true)
+        next()
+    } else if (to.path == '/selectStore') { //头部和底部导航是否显示
+        store.commit('changeHeaderLeft', false) //判断头部左侧的返回按钮是否显示
+        store.commit('isHeaderFooterShow', false) //头部导航和底部导航是否显示
         next()
     }
 })
