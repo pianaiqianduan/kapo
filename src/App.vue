@@ -10,7 +10,7 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
-    <foot></foot>
+    <foot v-show="isHeaderFooterShow"></foot>
   </div>
 </template>
 
@@ -23,6 +23,9 @@ export default {
   components:{
     foot,
     heade
+  },
+  computed:{
+    ...mapState(['isHeaderFooterShow'])
   }
 }
 </script>

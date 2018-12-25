@@ -8,10 +8,10 @@
 </template>
 
 <script>
-var kaObj = JSON.parse(sessionStorage.kaObj)
-var userName = localStorage.userName
-var passWord = localStorage.passWord
-var customerName = kaObj.customerName
+// var kaObj = JSON.parse(sessionStorage.kaObj)
+// var userName = localStorage.userName
+// var passWord = localStorage.passWord
+// var customerName = kaObj.customerName
 import { XHeader } from 'vux'
 import { mapMutations } from 'vuex'
 import { XTable } from 'vux'
@@ -23,8 +23,8 @@ export default {
     },
     data(){
         return{
-            msg:customerName
-            //   msg:"苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店",
+            // msg:customerName
+            msg:"苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店",
         }
     },
 
@@ -90,14 +90,14 @@ export default {
                         }
                         this.$axios.get(this.url+'preorderKaController.do?checkProducts',{      //调用接口获取产品信息   
                         params:{
-                            // userName:"20090083",
-                            // passWord:"123456",
-                            // customerCode:"20090083",
-                            // storescode:"01",
-                            userName:userName,
-                            passWord:passWord,
-                            customerCode:kaObj.customerCode,
-                            storescode:kaObj.storescode,
+                            userName:"20090083",
+                            passWord:"123456",
+                            customerCode:"20090083",
+                            storescode:"01",
+                            // userName:userName,
+                            // passWord:passWord,
+                            // customerCode:kaObj.customerCode,
+                            // storescode:kaObj.storescode,
                             sapIds:opt
                         }
                         }).then(res=>{

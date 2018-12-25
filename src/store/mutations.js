@@ -1,4 +1,11 @@
 export default ({
+
+    /**获取选中的门店数组 */
+    chooseStoreList(state, arr) {
+        state.chooseStoreList = arr
+    },
+
+
     //初始化得到的产品数组集合用于搜索
     getChooseList(state) {
         state.getChooseList = []
@@ -163,6 +170,11 @@ export default ({
     //修改头部导航右侧是否显示
     changeHeaderLeft(state, isShow) {
         state.headerLeftShow.showBack = isShow
+    },
+
+    //判断头部导航和底部导航是否显示
+    isHeaderFooterShow(state, isShow) {
+        state.isHeaderFooterShow = isShow
     },
 
     //判断登录

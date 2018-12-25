@@ -2,7 +2,7 @@
     <div class="add">
         <div class="titS" ref="titS">
             <search top="46px" placeholder="产品名称"   v-model="value"
-            @on-change="getResult" @on-result-click="resultClick" @on-cancel="cancel"  @on-focus="onFocus" @on-blur="onBlur">
+            @on-change="getResult"  @on-cancel="cancel"  @on-focus="onFocus" @on-blur="onBlur">
                 <checklist :options="results" v-model="valueA" @on-change="choose"></checklist>
             </search>
             <div style="height:44px;width:100%" v-show="isShow"></div>
@@ -22,9 +22,9 @@
 </template>
 
 <script>
-var kaObj = JSON.parse(sessionStorage.kaObj)
-var userName = localStorage.userName
-var passWord = localStorage.passWord
+// var kaObj = JSON.parse(sessionStorage.kaObj)
+// var userName = localStorage.userName
+// var passWord = localStorage.passWord
 
 import { Search, XButton, Divider, Checklist } from 'vux'
 import { mapMutations,mapState } from 'vuex'
@@ -58,52 +58,6 @@ export default {
         },
          choose(val){   //当多选值发生变化时
             this.checkedArr(val)
-        },
-        resultClick(item){  //点击选中条目时触发
-            this.isShow = false
-            this.value = ''
-            this.$axios.get(this.url+'preorderKaController.do?checkProducts',{         
-                params:{
-                    userName:userName,
-                    passWord:passWord,
-                    customerCode:kaObj.customerCode,
-                    storescode:kaObj.storescode,
-                    // userName:"20011926",
-                    // passWord:"111111",
-                    // customerCode:"20011926",
-                    // storescode:"01",
-                    // sapIds:item.id
-                }
-            }).then(res=>{
-                console.log(res)
-                if(res.data.success == true){
-                    this.setChooseList(item)           //调用mutation的方法
-                    if(this.isHave){
-                        let str = this.isHaveArr[0].name
-                        this.$vux.alert.show({
-                            title: '注意',
-                            content: str+'产品已经存在,您可通过修改数量来进行操作！',
-                        })
-                    }else{
-                        this.$vux.toast.show({
-                            time:'1000',
-                            type:'success',
-                            text: '产品录入成功'
-                        })
-                    }
-                     
-                }else{
-                    this.$vux.alert.show({
-                        title: '注意',
-                        content: res.data.msg,
-                    })
-                }
-            }).catch(e=>{
-                this.$vux.alert.show({
-                    title: '注意',
-                    content: '服务器出错,请稍后再试',
-                })
-            }) 
         },
         cancel(){  //点击取消时触发
             this.$store.commit('changeHeaderRight','退出登录')
@@ -297,12 +251,12 @@ export default {
         //获取产品列表
         this.$axios.get(this.url+'preorderKaController.do?getProductList',{         
             params:{
-                userName:userName,
-                passWord:passWord,
-                customerid:kaObj.customerid
-                // userName:"20090083",
-                // passWord:"123456",
-                // customerid:"e4e481b74d6b06f9014d6b186869019f"
+                // userName:userName,
+                // passWord:passWord,
+                // customerid:kaObj.customerid
+                userName:"20090083",
+                passWord:"123456",
+                customerid:"e4e481b74d6b06f9014d6b186869019f"
             }
         }).then(res=>{
             console.log(res)

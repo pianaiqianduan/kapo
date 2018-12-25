@@ -23,9 +23,9 @@
 </template>
 
 <script>
-var kaObj = JSON.parse(sessionStorage.kaObj)
-var userName = localStorage.userName
-var passWord = localStorage.passWord
+// var kaObj = JSON.parse(sessionStorage.kaObj)
+// var userName = localStorage.userName
+// var passWord = localStorage.passWord
 
 import { Group, Selector, Datetime, XTextarea,   } from 'vux'
 import{  Flexbox, FlexboxItem ,XButton,Cell} from 'vux';
@@ -78,14 +78,14 @@ export default {
                         console.log(_this.tjProductList)
                         _this.$axios.get(_this.url+'preorderKaController.do?saveKaddcx',{         
                                 params:{
-                                    userName:userName,
-                                    passWord:passWord,
-                                    customerCode :kaObj.customerCode,
-                                    storescode:kaObj.storescode,
-                                    //  userName:"20090083",
-                                    //     passWord:"123456",
-                                    //     customerCode:"20090083",
-                                    // storescode:"01",
+                                    // userName:userName,
+                                    // passWord:passWord,
+                                    // customerCode :kaObj.customerCode,
+                                    // storescode:kaObj.storescode,
+                                    userName:"20090083",
+                                    passWord:"123456",
+                                    customerCode:"20090083",
+                                    storescode:"01",
                                     products:JSON.stringify(_this.tjProductList) ,  //产品
                                     dbillDate:_this.dateValue,  //日期
                                     vnote:_this.textValue     //备注

@@ -21,6 +21,10 @@ export default ({
 
     headerRight: '退出登录', //头部右侧导航到底显示什么内容----默认显示“退出登录”
 
-    isClick: false //当头部右侧的内容为‘确定’时,判断用户是否点击了,默认没有点击
+    isClick: false, //当头部右侧的内容为‘确定’时,判断用户是否点击了,默认没有点击
+
+    isHeaderFooterShow: true, //头部导航和底部导航是否显示
+
+    chooseStoreList: [] //选中的门店个数
 
 })

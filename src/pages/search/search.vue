@@ -53,9 +53,9 @@
 </template>
 
 <script>
-var kaObj = JSON.parse(sessionStorage.kaObj)
-var userName = localStorage.userName
-var passWord = localStorage.passWord
+// var kaObj = JSON.parse(sessionStorage.kaObj)
+// var userName = localStorage.userName
+// var passWord = localStorage.passWord
 
 import {Group, Datetime, Selector, Search, Divider, XButton, Flexbox, FlexboxItem, XTable, XInput  } from 'vux'
 import {mapMutations} from 'vuex'
@@ -149,12 +149,12 @@ export default {
             params: {
                 page: page.num, //页码
                 rows: page.size, //每页长度
-                userName:userName,
-                passWord:passWord,
-                customerCode:kaObj.customerCode,
-                //  userName:"20090083",
-                // passWord:"123456",
-                // customerCode:"20090083",
+                // userName:userName,
+                // passWord:passWord,
+                // customerCode:kaObj.customerCode,
+                userName:"20090083",
+                passWord:"123456",
+                customerCode:"20090083",
                 orderNumber:this.Numbervalue,
                 orderDateStart:this.startDate,
                 orderDateEnd:this.endDate,
@@ -183,10 +183,10 @@ export default {
             
             this.$axios.get(this.url+'preorderKaController.do?findKaddcxDetail',{         
                 params:{
-                    userName:userName,
-                    passWord:passWord,
-                    // userName:"20090083",
-                    // passWord:"123456",
+                    // userName:userName,
+                    // passWord:passWord,
+                    userName:"20090083",
+                    passWord:"123456",
                     orderId:id
                 }
             }).then(res=>{

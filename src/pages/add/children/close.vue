@@ -78,7 +78,6 @@ export default {
         position: fixed;
         left: 0;
         bottom: 50px;
-        height: 6.1%;
         background: #CDC8B1;
     }
 </style>
