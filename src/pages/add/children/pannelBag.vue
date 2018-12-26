@@ -17,7 +17,7 @@
                                 <span class="msg">{{item.spec}}</span> 
                             </div>
                             <div class="num">
-                                <span class="left">数量(箱):</span>
+                                <span class="left">数量(袋):</span>
                                 <x-number :min="0" v-model="item.num" @on-change="numChangeBox(item.id)" fillable disabled></x-number>                         
                             </div>
                     </group>
@@ -54,7 +54,7 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['changeItem','productNum']),
+        ...mapMutations(['changeItem','productBagNum']),
         consoleIndex(){
             console.log(this.demo01)
         },
@@ -63,7 +63,7 @@ export default {
                id:id,
                num:this.item.num
            } 
-           this.productNum(obj)
+           this.productBagNum(obj)
         },
         handleClose(){    //菜单关闭时触发
            

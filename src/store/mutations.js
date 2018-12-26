@@ -8,7 +8,6 @@ export default ({
 
     //初始化得到的产品数组集合用于搜索
     getChooseList(state) {
-        debugger
         state.getChooseList = []
     },
 
@@ -67,14 +66,16 @@ export default ({
                         state.isHaveArr.push(obj)
                     } else {
                         if (i == state.getChooseList.length - 1 && !flag) {
-                            state.getChooseList.push(chooseItemObj[j])
+                            state.getChooseList.push(chooseItemObj[j]) //----------箱
+                            state.getBagList.push(chooseItemObj[j]) //----------袋
                             console.log(state.getChooseList)
                         }
                     }
                 }
             }
         } else {
-            state.getChooseList = chooseItemObj
+            state.getChooseList = chooseItemObj //-------箱
+            state.getBagList = chooseItemObj //袋
             console.log(state.getChooseList)
         }
 
@@ -101,7 +102,6 @@ export default ({
 
     //获取产品数量--箱
     productNum(state, obj) {
-        debugger
         for (let i in state.getChooseList) {
             if (state.getChooseList[i].id == obj.id) {
                 state.getChooseList[i].num = obj.num
@@ -110,7 +110,15 @@ export default ({
             }
         }
     },
-
+    productBagNum(state, obj) {
+        for (let i in state.getChooseList) {
+            if (state.getBagList[i].id == obj.id) {
+                state.getBagList[i].num = obj.num
+                console.log(state.getBagList)
+                break
+            }
+        }
+    },
     //去结算
     toClose(state) {
         state.productList = []

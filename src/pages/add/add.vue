@@ -12,9 +12,15 @@
             </div>
         <divider style="margin-top:2%">搜索产品列表</divider>
         </div>
-       
-        <div class="content" v-if="this.getChooseList">
-            <pannel v-for="(item,index) in this.getChooseList" :key="index" :item= "item"></pannel>
+        <button-tab v-model="demo01" style="margin-top:148px">
+            <button-tab-item @on-item-click="consoleIndex()" selected>箱</button-tab-item>
+            <button-tab-item @on-item-click="consoleIndex()">袋</button-tab-item>
+        </button-tab>
+        <div class="content" v-for="(item,index) in this.getChooseList" :key="index" v-if="!demo01">
+            <pannel :item= "item"></pannel>
+        </div>
+        <div class="content" v-for="list in this.getBagList" :key="list" v-else>
+            <pannelbag :item= "list"></pannelbag>
         </div>
         <close></close>
         
@@ -27,8 +33,10 @@
 // var passWord = localStorage.passWord
 
 import { Search, XButton, Divider, Checklist } from 'vux'
+import { ButtonTab, ButtonTabItem } from 'vux'
 import { mapMutations,mapState } from 'vuex'
 import pannel from './children/pannel'
+import pannelBag from './children/pannelBag'
 import close from './children/close'
 export default {
     name:"add",
@@ -38,7 +46,10 @@ export default {
         Divider,
         pannel,
         close,
-        Checklist 
+        Checklist,
+        ButtonTab, 
+        ButtonTabItem,
+        pannelbag:pannelBag
     },
     data(){
         return{
@@ -49,10 +60,14 @@ export default {
             docmHeight: document.documentElement.clientHeight,  //页面的高度
             showHeight: document.documentElement.clientHeight,
             hidshow:true ,  //判断页面高度时传出去的参数
+            demo01:0
         }
     },
     methods:{
         ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr']),       //mutation中的方法动态改变state中的数据
+        consoleIndex(){ //切换tab方法
+            console.log(this.demo01)
+        },
         getResult(val){  //输入文字变化触发
             this.results = val? getResult(this.value):[]
         },
@@ -191,6 +206,10 @@ export default {
         ...mapState(
             ['index','isHave','pannelList','getChooseList','isShowDiv','isHaveArr','changeHeaderRight','isClick']
         ),
+        getBagList(){
+            debugger
+            return this.$store.state.getBagList
+        }
     },
     created(){
         let url = location.href.split('#')[0]    //获取地址栏参数并修改
@@ -309,9 +328,9 @@ function getResult(val){
         background: rgb(251,249,254);
     }
     .content{
-    overflow-y: scroll;
-    padding-top: 38%;
-    overflow: hidden;
+        overflow-y: scroll;
+        padding-top: 3%;
+        overflow: hidden;
     }
     .icon{
         display: inline-flex;

@@ -1,6 +1,8 @@
 export default ({
     getChooseList: [], //选中的产品组包括id,规格,数量,产品名称------------箱
 
+    getBagList: [], //选中的产品组包括id,规格，数量,产品名称 -----------------袋
+
     isHave: false, //是否有重复的
 
     isHaveArr: [], //重复的产品数组
