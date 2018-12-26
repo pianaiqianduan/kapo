@@ -17,9 +17,9 @@
                             <span class="msg">{{item.spec}}</span> 
                         </div>
                         <div class="num">
-                            <span class="left">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量:</span>
-                            <x-number :min="0" v-model="item.num" @on-change="numChange(item.id)" fillable></x-number>                         
-                        </div>   
+                            <span class="left">数量(箱):</span>
+                            <x-number :min="0" v-model="item.num" @on-change="numChangeBox(item.id)" fillable></x-number>                         
+                        </div>
                     </group>
                 </div>
              </swipeout-item>
@@ -48,10 +48,13 @@ export default {
     },
     data(){
         return{
+            
         }
     },
     methods:{
-        numChange(id){      //点击产品数量时触发
+        ...mapMutations(['changeItem','productNum']),
+
+        numChangeBox(id){      //点击产品数量时触发---箱
            let obj = {
                id:id,
                num:this.item.num
@@ -80,7 +83,6 @@ export default {
                 }
             })
         },
-        ...mapMutations(['changeItem','productNum']),
     },
     mounted(){
        

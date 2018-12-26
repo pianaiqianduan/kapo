@@ -49,11 +49,20 @@ export default {
     methods:{
         ...mapMutations(['scanChooseList']),
         out(){
-            if(this.headerRight == '退出登录'){    //头部右侧的内容为‘退出登录’
+            if(this.headerRight == '门店选择'){    //头部右侧的内容为‘退出登录’
                 const _this = this   //改变this指向
                 this.$vux.confirm.show({
                     title:"注意",
-                    content:"您确定要退出吗？",
+                    content:"您确定要重新选择门店吗？",
+                    onConfirm () {    //点击确定的回调
+                        _this.$router.push({path:"/selectStore"})
+                    }
+                })
+            }else if(this.headerRight == '退出登录'){
+                const _this = this   //改变this指向
+                this.$vux.confirm.show({
+                    title:"注意",
+                    content:"您确定要退出登录吗？",
                     onConfirm () {    //点击确定的回调
                         sessionStorage.clear();  //清空sessionStorage中的内容
                         localStorage.clear()     //清空localStorage中的内容
@@ -73,7 +82,6 @@ export default {
                                 
                                 }
                             }
-                            
                             if(j == productListObj.length-1 ){
                                 // let ids = ['0020011926','0020011926','0020011926','0020011926']
                                 for(let j in sapIds){   //循环sapIds中产品id,将数组转化成字符串
@@ -103,7 +111,7 @@ export default {
                         }).then(res=>{
                             console.log(res)
                             if(res.data.success == true){ //请求成功
-                             this.$store.commit('changeHeaderRight','退出登录')
+                             this.$store.commit('changeHeaderRight','门店选择')
                                 let item = []  
                                 for(let i in res.data.products){  //处理请求到的数据
                                     let obj ={
@@ -139,6 +147,7 @@ export default {
                                     })
                                 }
                             }else{  //获取产品信息失败时
+                            this.$store.commit('changeHeaderRight','门店选择')
                                 this.$vux.alert.show({
                                     title: '注意',
                                     content: res.data.msg,

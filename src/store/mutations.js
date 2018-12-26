@@ -8,6 +8,7 @@ export default ({
 
     //初始化得到的产品数组集合用于搜索
     getChooseList(state) {
+        debugger
         state.getChooseList = []
     },
 
@@ -98,8 +99,9 @@ export default ({
         }
     },
 
-    //获取产品数量
+    //获取产品数量--箱
     productNum(state, obj) {
+        debugger
         for (let i in state.getChooseList) {
             if (state.getChooseList[i].id == obj.id) {
                 state.getChooseList[i].num = obj.num

@@ -1,5 +1,5 @@
 export default ({
-    getChooseList: [], //产品组包括id,规格,数量,产品名称
+    getChooseList: [], //选中的产品组包括id,规格,数量,产品名称------------箱
 
     isHave: false, //是否有重复的
 
@@ -19,7 +19,7 @@ export default ({
 
     checkedArr: [], //从多选中选中的集合
 
-    headerRight: '退出登录', //头部右侧导航到底显示什么内容----默认显示“退出登录”
+    headerRight: '门店选择', //头部右侧导航到底显示什么内容----默认显示“门店选择”
 
     isClick: false, //当头部右侧的内容为‘确定’时,判断用户是否点击了,默认没有点击
 
