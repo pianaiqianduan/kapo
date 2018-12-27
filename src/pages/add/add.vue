@@ -12,16 +12,23 @@
             </div>
         <divider style="margin-top:2%">搜索产品列表</divider>
         </div>
-        <button-tab v-model="demo01" style="margin-top:148px">
-            <button-tab-item @on-item-click="consoleIndex()" selected>箱</button-tab-item>
-            <button-tab-item @on-item-click="consoleIndex()">袋</button-tab-item>
+        <button-tab v-model="demo01" style="margin-top:155px">
+            <button-tab-item @on-item-click="consoleIndex1()" selected>箱</button-tab-item>
+            <button-tab-item @on-item-click="consoleIndex2()">袋</button-tab-item>
         </button-tab>
-        <div class="content" v-for="(item,index) in this.getChooseList" :key="index" v-if="!demo01">
-            <pannel :item= "item"></pannel>
+        <div  v-if="!demo01" >
+            <div class="content">
+                <pannel></pannel>
+            </div>
         </div>
-        <div class="content" v-for="list in this.getBagList" :key="list" v-else>
-            <pannelbag :item= "list"></pannelbag>
+        <div v-else>
+            <div class="content">
+                <pannelbag ></pannelbag>
+            </div>
+                
+      
         </div>
+        
         <close></close>
         
     </div>
@@ -64,9 +71,12 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr']),       //mutation中的方法动态改变state中的数据
-        consoleIndex(){ //切换tab方法
-            console.log(this.demo01)
+        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1']),       //mutation中的方法动态改变state中的数据
+        consoleIndex1(){ //切换tab方法---下标从0切换到1(从袋切换到箱)
+            this.tabIndex0()
+        },
+        consoleIndex2(){  //切换tab方法---下标从1切换到0(从箱切换到袋)
+            this.tabIndex1()
         },
         getResult(val){  //输入文字变化触发
             this.results = val? getResult(this.value):[]
@@ -204,12 +214,8 @@ export default {
     },
     computed:{   //计算属性
         ...mapState(
-            ['index','isHave','pannelList','getChooseList','isShowDiv','isHaveArr','changeHeaderRight','isClick']
+            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList']
         ),
-        getBagList(){
-            debugger
-            return this.$store.state.getBagList
-        }
     },
     created(){
         let url = location.href.split('#')[0]    //获取地址栏参数并修改
@@ -281,7 +287,6 @@ export default {
             console.log(res)
             if(res.data.rows.length){
                 sessionStorage.productList = JSON.stringify(res.data.rows)
-                this.$store.commit('getChooseList')
             }
         }).catch(e=>{
             this.$vux.alert.show({
@@ -329,7 +334,6 @@ function getResult(val){
     }
     .content{
         overflow-y: scroll;
-        padding-top: 3%;
         overflow: hidden;
     }
     .icon{

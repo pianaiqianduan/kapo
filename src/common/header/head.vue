@@ -47,7 +47,7 @@ export default {
 
     },
     methods:{
-        ...mapMutations(['scanChooseList']),
+        ...mapMutations(['scanChooseListBox','scanChooseListBag']),
         out(){
             if(this.headerRight == '门店选择'){    //头部右侧的内容为‘退出登录’
                 const _this = this   //改变this指向
@@ -112,19 +112,22 @@ export default {
                             console.log(res)
                             if(res.data.success == true){ //请求成功
                              this.$store.commit('changeHeaderRight','门店选择')
-                                let item = []  
-                                for(let i in res.data.products){  //处理请求到的数据
-                                    let obj ={
-                                        title:res.data.products[i].itemdesc, //产品名称
-                                        id:res.data.products[i].productSapId, //产品id
-                                        spec:res.data.products[i].itemspec,  //产品吗描述
-                                        num:0,  //新增的数量字段
-                                    }
-                                    item.push(obj)
-                                }
-                                if(item.length){  //添加选中的产品的所有信息到getChooseList中
-                                    this.scanChooseList(item) 
-                                }
+                                // let item = []  
+                                // for(let i in res.data.products){  //处理请求到的数据
+                                //     let obj ={
+                                //         title:res.data.products[i].itemdesc, //产品名称
+                                //         id:res.data.products[i].productSapId, //产品id
+                                //         spec:res.data.products[i].itemspec,  //产品吗描述
+                                //         num:0,  //新增的数量字段
+                                //     }
+                                //     item.push(obj)
+                                // }
+                                // if(item.length){  //添加选中的产品的所有信息到getChooseList中
+                                //     this.scanChooseListBox(item)
+                                //     this.scanChooseListBag(item)  
+                                // }
+                                this.scanChooseListBox(res.data.products)
+                                this.scanChooseListBag(res.data.products)
                                 if(this.isHave){  //如果产品已经存在
                                     let strC=''
                                     if(this.isHaveArr.length == 1){   //重复的产品数组只有一个

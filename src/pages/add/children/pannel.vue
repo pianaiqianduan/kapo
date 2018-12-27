@@ -1,12 +1,12 @@
 <template>
     <div class="pannel">
-        <swipeout>
+        <swipeout  v-for="(item,index) of this.getChooseList" :key="index">
             <swipeout-item @on-close="handleClose" @on-open="handleOpen" transition-mode="follow" id="item.id">
                 <div slot="right-menu">
                     <swipeout-button @click.native="clickFav" type="primary">取消</swipeout-button>
                     <swipeout-button @click.native="clickDel(item.id)" type="warn">删除</swipeout-button>
                 </div>
-                <div slot="content">
+                <div slot="content" key="hg">
                     <group class="content">
                          <div class="search">
                                 <span class="left">产品名称:</span>
@@ -18,7 +18,7 @@
                             </div>
                             <div class="num">
                                 <span class="left">数量(箱):</span>
-                                <x-number :min="0" v-model="item.num" @on-change="numChangeBox(item.id)" fillable disabled></x-number>                         
+                                <x-number :min="0" v-model="item.num" fillable></x-number>                         
                             </div>
                     </group>
                 </div>
@@ -32,11 +32,10 @@ import { Group, Search,XInput } from 'vux';
    import { XNumber, } from 'vux';
 import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
-import { mapMutations } from 'vuex'
+import { mapMutations,mapState } from 'vuex'
 
 export default {
     name:"pannel",
-    props:['item'],
     components:{
         Group,
         Search,
@@ -53,18 +52,15 @@ export default {
             
         }
     },
+    computed:{
+        ...mapState(['getChooseList'])
+    },
     methods:{
-        ...mapMutations(['changeItem','productNum']),
+        ...mapMutations(['changeItem']),
         consoleIndex(){
             console.log(this.demo01)
         },
-        numChangeBox(id){
-            let obj = {
-               id:id,
-               num:this.item.num
-           } 
-           this.productNum(obj)
-        },
+
         handleClose(){    //菜单关闭时触发
            
         },

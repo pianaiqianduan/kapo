@@ -5,12 +5,6 @@ export default ({
         state.chooseStoreList = arr
     },
 
-
-    //初始化得到的产品数组集合用于搜索
-    getChooseList(state) {
-        state.getChooseList = []
-    },
-
     //从多选选中的产品数组集合
     checkedArr(state, msg) {
         state.checkedArr = msg
@@ -21,43 +15,16 @@ export default ({
         state.headerRight = msg
     },
 
-    // 添加选中产品 --输入产品名称的条件下  --------------------------------------单个选中的已经取消逻辑
-    // setChooseList(state, chooseItemObj) {
-    //     if (state.getChooseList.length) {
-    //         state.isHave = false //每次都清空
-    //         state.isHaveArr = [] //每次都清空
-    //         let flag = false
-    //         for (let i in state.getChooseList) {
-    //             if (state.getChooseList[i].id == chooseItemObj.id) { //是否有重复的
-    //                 let obj = {
-    //                     name: state.getChooseList[i].title
-    //                 }
-    //                 state.isHaveArr.push(obj)
-    //                 flag = true
-    //                 state.isHave = true
-    //             } else {
-    //                 if (i == state.getChooseList.length - 1 && !flag) {
-    //                     state.getChooseList.push(chooseItemObj)
-    //                     console.log(state.getChooseList)
-    //                 }
-    //             }
-    //         }
-    //     } else {
-    //         state.getChooseList.push(chooseItemObj)
-    //         console.log(state.getChooseList)
-    //     }
-
-    // },
-
-    //扫码的情况下和多选情况下 --添加产品
-    scanChooseList(state, chooseItemObj) {
+    //扫码的情况下和多选情况下 --添加产品(箱)
+    scanChooseListBox(state, chooseItemArr) {
+        debugger
         state.isHave = false //每次都清空
         state.isHaveArr = [] //每次都清空
         if (state.getChooseList.length) {
-            for (let j in chooseItemObj) {
+            for (let j in chooseItemArr) {
                 let flag = false
                 for (let i in state.getChooseList) {
-                    if (state.getChooseList[i].id == chooseItemObj[j].id) {
+                    if (state.getChooseList[i].id == chooseItemArr[j].id) {
                         let obj = {
                             name: state.getChooseList[i].title
                         }
@@ -66,19 +33,120 @@ export default ({
                         state.isHaveArr.push(obj)
                     } else {
                         if (i == state.getChooseList.length - 1 && !flag) {
-                            state.getChooseList.push(chooseItemObj[j]) //----------箱
-                            state.getBagList.push(chooseItemObj[j]) //----------袋
+                            state.getChooseList.push(chooseItemArr[j]) //----------箱
                             console.log(state.getChooseList)
                         }
                     }
                 }
             }
         } else {
-            state.getChooseList = chooseItemObj //-------箱
-            state.getBagList = chooseItemObj //袋
-            console.log(state.getChooseList)
+            let item = []
+            for (let i in chooseItemArr) { //处理请求到的数据
+                let obj = {
+                    title: chooseItemArr[i].itemdesc, //产品名称
+                    id: chooseItemArr[i].productSapId, //产品id
+                    spec: chooseItemArr[i].itemspec, //产品吗描述
+                    num: 0, //新增的数量字段
+                }
+                item.push(obj)
+            }
+            state.getChooseList = item
         }
 
+    },
+    //扫码的情况下和多选情况下 --添加产品(袋)
+    scanChooseListBag(state, chooseItemArr) {
+        debugger
+        state.isHave = false //每次都清空
+        state.isHaveArr = [] //每次都清空
+        if (state.getBagList.length) {
+            for (let m in chooseItemArr) {
+                let flag = false
+                for (let n in state.getBagList) {
+                    if (state.getBagList[n].id == chooseItemArr[m].id) {
+                        let obj = {
+                            name: state.getBagList[n].title
+                        }
+                        state.isHave = true
+                        flag = true
+                        state.isHaveArr.push(obj)
+                    } else {
+                        if (n == state.getBagList.length - 1 && !flag) {
+                            state.getBagList.push(chooseItemArr[m]) //----------袋
+                            console.log(state.getBagList)
+                        }
+                    }
+                }
+            }
+        } else {
+            let item = []
+            for (let i in chooseItemArr) { //处理请求到的数据
+                let obj = {
+                    title: chooseItemArr[i].itemdesc, //产品名称
+                    id: chooseItemArr[i].productSapId, //产品id
+                    spec: chooseItemArr[i].itemspec, //产品吗描述
+                    num: 0, //新增的数量字段
+                }
+                item.push(obj)
+            }
+            state.getBagList = item
+        }
+
+    },
+
+    //tab-button中index为0的情况(从袋切换到箱)
+    tabIndex0(state) {
+        debugger
+        if (state.getBagList.length == state.getChooseList.length) {
+            for (let i in state.getBagList) {
+                for (let k in state.getChooseList) {
+                    if (state.getBagList[i].id == state.getChooseList[k].id && state.getBagList[i].num != 0) {
+                        state.getChooseList.splice(k, 1)
+                        break
+                    }
+                }
+            }
+        } else if (state.getBagList.length > state.getChooseList.length) {
+            for (let x in state.getBagList) {
+                for (let y in state.getChooseList) {
+                    if (state.getBagList[x].id == state.getChooseList[y].id) {
+                        break
+                    } else if (y == state.getChooseList.length - 1) {
+                        if (state.getBagList[x].num == 0) {
+                            state.getChooseList.push(state.getBagList[x])
+                        }
+                    }
+                }
+            }
+        }
+    },
+    //tab-button中index为1的情况(从箱切换到袋)
+    tabIndex1(state) {
+        debugger
+        if (state.getBagList.length == state.getChooseList.length) {
+            for (let i in state.getChooseList) {
+                for (let k in state.getBagList) {
+                    if (state.getChooseList[i].id == state.getBagList[k].id && state.getChooseList[i].num != 0) {
+                        state.getBagList.splice(k, 1)
+                        break
+                    }
+                }
+            }
+        } else if (state.getBagList.length > state.getChooseList.length) {
+            for (let x in state.getBagList) {
+                for (let y in state.getChooseList) {
+                    if (state.getBagList[x].id == state.getChooseList[y].id && state.getChooseList[y].num != 0) {
+                        state.getBagList.splice(x, 1)
+                        break
+                    }
+                    // else if (y == state.getChooseList.length - 1) {
+                    //     if (state.getBagList[x].num == 0) {
+                    //         state.getChooseList.push(state.getBagList[x])
+                    //     }
+                    // }
+                }
+            }
+        }
     },
 
     //点击搜索框右侧取消按钮时，清空选中的集合里的数据
@@ -96,26 +164,6 @@ export default ({
         for (let i in state.getChooseList) { //删除数据数组的信息
             if (state.getChooseList[i].id == itemId) {
                 state.getChooseList.splice(i, 1)
-            }
-        }
-    },
-
-    //获取产品数量--箱
-    productNum(state, obj) {
-        for (let i in state.getChooseList) {
-            if (state.getChooseList[i].id == obj.id) {
-                state.getChooseList[i].num = obj.num
-                console.log(state.getChooseList)
-                break
-            }
-        }
-    },
-    productBagNum(state, obj) {
-        for (let i in state.getChooseList) {
-            if (state.getBagList[i].id == obj.id) {
-                state.getBagList[i].num = obj.num
-                console.log(state.getBagList)
-                break
             }
         }
     },

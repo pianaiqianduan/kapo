@@ -1,24 +1,24 @@
 <template>
     <div class="pannel">
-        <swipeout>
-            <swipeout-item @on-close="handleClose" @on-open="handleOpen" transition-mode="follow" id="item.id">
+        <swipeout v-for="list of this.getBagList" :key="list.id">
+            <swipeout-item @on-close="handleClose" @on-open="handleOpen" transition-mode="follow" id="list.id">
                 <div slot="right-menu">
                     <swipeout-button @click.native="clickFav" type="primary">取消</swipeout-button>
-                    <swipeout-button @click.native="clickDel(item.id)" type="warn">删除</swipeout-button>
+                    <swipeout-button @click.native="clickDel(list.id)" type="warn">删除</swipeout-button>
                 </div>
-                <div slot="content">
+                <div slot="content" key="apd">
                     <group class="content">
                          <div class="search">
                                 <span class="left">产品名称:</span>
-                                <span style="width:100%">{{item.title}}</span>
+                                <span style="width:100%">{{list.title}}</span>
                             </div>
                             <div class="size">
                                 <span class="left">产品规格:</span>
-                                <span class="msg">{{item.spec}}</span> 
+                                <span class="msg">{{list.spec}}</span> 
                             </div>
                             <div class="num">
                                 <span class="left">数量(袋):</span>
-                                <x-number :min="0" v-model="item.num" @on-change="numChangeBox(item.id)" fillable disabled></x-number>                         
+                                <x-number :min="0" v-model="list.num" fillable></x-number>                         
                             </div>
                     </group>
                 </div>
@@ -32,11 +32,10 @@ import { Group, Search,XInput } from 'vux';
    import { XNumber, } from 'vux';
 import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
-import { mapMutations } from 'vuex'
+import { mapMutations,mapState } from 'vuex'
 
 export default {
-    name:"pannel",
-    props:['item'],
+    // props:['list'],
     components:{
         Group,
         Search,
@@ -53,17 +52,13 @@ export default {
             
         }
     },
+    computed:{
+        ...mapState(['getBagList'])
+    },
     methods:{
-        ...mapMutations(['changeItem','productBagNum']),
+        ...mapMutations(['changeItem']),
         consoleIndex(){
             console.log(this.demo01)
-        },
-        numChangeBox(id){
-            let obj = {
-               id:id,
-               num:this.item.num
-           } 
-           this.productBagNum(obj)
         },
         handleClose(){    //菜单关闭时触发
            
