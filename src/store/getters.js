@@ -12,7 +12,7 @@ export default ({
         state.tjProductList = products
     },
 
-    //计算属性 -- 产品总数量
+    //计算属性 -- 产品总数量(箱)
     allNum(state) {
         let opt = 0
         if (state.getChooseList.length) {
@@ -23,5 +23,20 @@ export default ({
         }
         return opt
 
+    },
+
+    //计算属性 -- 产品总数量(箱)
+    allBagNum(state) {
+        let opt = 0
+        if (state.getBagList.length) {
+
+            for (let i in state.getBagList) {
+                opt += state.getBagList[i].num
+            }
+        }
+        return opt
+
     }
+
+
 })

@@ -13,8 +13,8 @@
         <divider style="margin-top:2%">搜索产品列表</divider>
         </div>
         <button-tab v-model="demo01" style="margin-top:155px">
-            <button-tab-item @on-item-click="consoleIndex1()" selected>箱</button-tab-item>
-            <button-tab-item @on-item-click="consoleIndex2()">袋</button-tab-item>
+            <button-tab-item selected @on-item-click = "whatchIndex()">箱</button-tab-item>
+            <button-tab-item @on-item-click = "whatchIndex()">袋</button-tab-item>
         </button-tab>
         <div  v-if="!demo01" >
             <div class="content">
@@ -71,15 +71,12 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1']),       //mutation中的方法动态改变state中的数据
-        consoleIndex1(){ //切换tab方法---下标从0切换到1(从袋切换到箱)
-            this.tabIndex0()
-        },
-        consoleIndex2(){  //切换tab方法---下标从1切换到0(从箱切换到袋)
-            this.tabIndex1()
-        },
+        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1','getIndex']),       //mutation中的方法动态改变state中的数据
         getResult(val){  //输入文字变化触发
             this.results = val? getResult(this.value):[]
+        },
+        whatchIndex(){
+            this.getIndex(this.demo01)
         },
          choose(val){   //当多选值发生变化时
             this.checkedArr(val)

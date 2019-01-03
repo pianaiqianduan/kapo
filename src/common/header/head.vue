@@ -47,7 +47,7 @@ export default {
 
     },
     methods:{
-        ...mapMutations(['scanChooseListBox','scanChooseListBag']),
+        ...mapMutations(['scanChooseListBox','scanChooseListBag','noChangeList']),
         out(){
             if(this.headerRight == '门店选择'){    //头部右侧的内容为‘退出登录’
                 const _this = this   //改变this指向
@@ -128,13 +128,14 @@ export default {
                                 // }
                                 this.scanChooseListBox(res.data.products)
                                 this.scanChooseListBag(res.data.products)
+                                this.noChangeList(res.data.products)
                                 if(this.isHave){  //如果产品已经存在
                                     let strC=''
                                     if(this.isHaveArr.length == 1){   //重复的产品数组只有一个
-                                        strC+=this.isHaveArr[0].name
+                                        strC+='<p style="text-align:left">'+this.isHaveArr[0].name+'</p>'
                                     }else{
                                         for(let j in this.isHaveArr){   //重复的产品数组有多个进行循环
-                                            strC =  this.isHaveArr[j].name+ '</br>'+strC
+                                            strC = '<p style="text-align:left">'+this.isHaveArr[j].name+ '</p>'+strC
                                         }
                                     }
                                     this.$vux.alert.show({    //提示用户有哪些产品已经存在

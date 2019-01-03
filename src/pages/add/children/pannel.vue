@@ -18,7 +18,7 @@
                             </div>
                             <div class="num">
                                 <span class="left">数量(箱):</span>
-                                <x-number :min="0" v-model="item.num" fillable></x-number>                         
+                                <x-number :min="0" v-model="item.num" @on-change="numChange(item.id,item.num)" fillable></x-number>                         
                             </div>
                     </group>
                 </div>
@@ -56,7 +56,14 @@ export default {
         ...mapState(['getChooseList'])
     },
     methods:{
-        ...mapMutations(['changeItem']),
+        ...mapMutations(['deletBoxItems','productBoxNum']),
+        numChange(id,itemNum){      //点击产品数量时触发
+           let obj = {
+               id:id,
+               num:itemNum
+           } 
+           this.productBoxNum(obj)
+        },
         consoleIndex(){
             console.log(this.demo01)
         },
@@ -79,7 +86,7 @@ export default {
                 
                 },
                 onConfirm () {    //确定的回调
-                    _this.changeItem(id)
+                    _this.deletBoxItems(id)
                 }
             })
         },

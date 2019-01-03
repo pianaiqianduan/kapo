@@ -3,6 +3,10 @@ export default ({
 
     getBagList: [], //选中的产品组包括id,规格，数量,产品名称 -----------------袋
 
+    noChangeList: [], //永远不会变化的数组（是getChooseList和getBagList的并集）
+
+    getIndex: false,
+
     isHave: false, //是否有重复的
 
     isHaveArr: [], //重复的产品数组
