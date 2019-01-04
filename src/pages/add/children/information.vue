@@ -90,7 +90,7 @@ export default {
                                     dbillDate:_this.dateValue,  //日期
                                     vnote:_this.textValue     //备注
                                 }
-                            }).then(res=>{
+                            }).then(res=>{                 
                                 console.log(res)
                                 if(res.data.success == true){
                                     _this.cancelChooseList()      //删除信息
@@ -153,12 +153,12 @@ export default {
         margin-bottom: 10%;
     }
     .tj{
-        border: 1px solid #ccc;
+ 
         width: 100%;
         position: fixed;
         left: 0;
-        bottom: 50px;
-        height: 6.1%;
+        bottom: 0;
+        height:auto;
         background: #CDC8B1;
     }
     .tj >>> .weui-btn{

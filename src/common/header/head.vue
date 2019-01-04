@@ -1,7 +1,7 @@
 <template>
     <div class="head" style="position:fixed;left:0;right:0;top:0;z-index:999">
         <x-header :left-options="headerLeftShow">
-            <marquee scrollamount="1">{{msg}}</marquee>
+            <marquee scrollamount="1" v-if="isHeaderCenterShow">{{this.chooseStoreList}}</marquee>
             <a slot="right" @click="out">{{headerRight}}</a>
         </x-header>
     </div>
@@ -24,7 +24,7 @@ export default {
     data(){
         return{
             // msg:customerName
-            msg:"苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店",
+            // msg:"苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店",
         }
     },
 
@@ -43,8 +43,13 @@ export default {
         },
         isHaveArr(){   //重复的产品数组
             return this.$store.state.isHaveArr
+        },
+        isHeaderCenterShow(){    //导航栏中间的部分是否显示
+            return this.$store.state.isHeaderCenterShow
+        },
+        chooseStoreList(){     //选中的门店名称
+            return this.$store.state.chooseStoreList
         }
-
     },
     methods:{
         ...mapMutations(['scanChooseListBox','scanChooseListBag','noChangeList']),

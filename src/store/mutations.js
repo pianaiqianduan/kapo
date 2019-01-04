@@ -1,6 +1,6 @@
 export default ({
 
-    /**获取选中的门店数组 */
+    /**获取选中的门店 */
     chooseStoreList(state, arr) {
         state.chooseStoreList = arr
     },
@@ -13,6 +13,11 @@ export default ({
     //根据用户是否搜索到产品来改变‘Head’组件中头部右侧的内容
     changeHeaderRight(state, msg) {
         state.headerRight = msg
+    },
+
+    //根据跳转页面的不同，控制导航栏中部内容
+    isHeaderCenterShow(state, msg) {
+        state.isHeaderCenterShow = msg
     },
 
     //永远不变的数组(箱和袋的并集)
@@ -233,7 +238,8 @@ export default ({
     //去结算
     toClose(state) {
         state.productList = []
-        dataArr(state)
+        boxArr(state);
+        bagArr(state)
     },
 
     //提交成功后删除getChooseList中的数据
@@ -304,7 +310,7 @@ export default ({
     }
 })
 
-function dataArr(state) { //去结算 -- 数据数组
+function boxArr(state) { //去结算 -- 箱
     let flag = false
 
     if (state.getChooseList.length) {
@@ -325,7 +331,7 @@ function dataArr(state) { //去结算 -- 数据数组
                     obj.label = "产品规格";
                     obj.value = state.getChooseList[m].spec;
                     obj2.label = "产品数量";
-                    obj2.value = "x" + state.getChooseList[m].num;
+                    obj2.value = state.getChooseList[m].num + "箱";
                     obj3.id = state.getChooseList[m].id
                     obj3.titC = state.getChooseList[m].title
                     arr.push(obj3)
@@ -345,7 +351,57 @@ function dataArr(state) { //去结算 -- 数据数组
                     break
                 }
             }
-            return dataArr(state)
+            return boxArr(state)
+        }
+    } else {
+        state.isHaveProduct = false
+
+    }
+
+}
+
+function bagArr(state) { //去结算 -- 袋
+    let flag = false
+
+    if (state.getBagList.length || state.getChooseList.length) {
+        state.isHaveProduct = true
+        for (let i in state.getBagList) {
+            if (state.getBagList[i].num == 0) {
+                flag = true
+                break
+            }
+        }
+        if (!flag) {
+            if (state.getBagList.length) {
+                for (let m in state.getBagList) {
+                    let arr = [];
+                    let obj = {};
+                    let obj2 = {};
+                    let obj3 = {};
+                    obj.label = "产品规格";
+                    obj.value = state.getBagList[m].spec;
+                    obj2.label = "产品数量";
+                    obj2.value = state.getBagList[m].num + "袋";
+                    obj3.id = state.getBagList[m].id
+                    obj3.titC = state.getBagList[m].title
+                    arr.push(obj3)
+                    arr.push(obj);
+                    arr.push(obj2);
+                    // state.getChooseList[m] = arr;
+                    state.productList.push(arr)
+                }
+                console.log(state.productList)
+            }
+            return
+        } else {
+            for (let j in state.getBagList) {
+                if (state.getBagList[j].num == 0) {
+                    state.getBagList.splice(j, 1)
+                    state.getBagList = state.getBagList
+                    break
+                }
+            }
+            return bagArr(state)
         }
     } else {
         state.isHaveProduct = false

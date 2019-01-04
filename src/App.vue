@@ -10,23 +10,21 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
-    <foot v-show="isHeaderFooterShow"></foot>
+    <foot ></foot>
   </div>
 </template>
 
 <script>
 import foot from './common/footer/foot'
 import heade from './common/header/head'
-import {mapState} from 'vuex'
+
 export default {
   name: 'App',
   components:{
     foot,
     heade
   },
-  computed:{
-    ...mapState(['isHeaderFooterShow'])
-  }
+  
 }
 </script>
 

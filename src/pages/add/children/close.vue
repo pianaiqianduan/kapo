@@ -3,7 +3,7 @@
         <Flexbox>
             <FlexboxItem>
                 <p style="padding-left:8%">订单总数量:
-                    <span style="color:rgb(151,5,5)" v-show = "!this.getIndex">{{this.allNum}}件</span>
+                    <span style="color:rgb(151,5,5)" v-show = "!this.getIndex">{{this.allNum}}箱</span>
                     <span style="color:rgb(151,5,5)" v-show = "this.getIndex">{{this.allBagNum}}袋</span>
                 </p>
             </FlexboxItem>

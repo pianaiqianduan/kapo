@@ -10,19 +10,20 @@
                 <img src="./../../assets/image/saoma.png" alt="" style="width:10%;height:10%">
                 <x-button type="primary" style="width:65%;font-size:16px" @click.native="open">打开相机扫描包装袋条码</x-button>
             </div>
-        <divider style="margin-top:2%">搜索产品列表</divider>
+            <divider >搜索产品列表</divider>
+            <button-tab v-model="demo01" style="margin-top:10px">
+                <button-tab-item selected @on-item-click = "whatchIndex()">箱</button-tab-item>
+                <button-tab-item @on-item-click = "whatchIndex()">袋</button-tab-item>
+            </button-tab>
+        
         </div>
-        <button-tab v-model="demo01" style="margin-top:155px">
-            <button-tab-item selected @on-item-click = "whatchIndex()">箱</button-tab-item>
-            <button-tab-item @on-item-click = "whatchIndex()">袋</button-tab-item>
-        </button-tab>
         <div  v-if="!demo01" >
-            <div class="content">
+            <div class="content" style="margin-top:190px">
                 <pannel></pannel>
             </div>
         </div>
         <div v-else>
-            <div class="content">
+            <div class="content" style="margin-top:190px">
                 <pannelbag ></pannelbag>
             </div>
                 

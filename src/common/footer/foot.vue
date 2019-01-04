@@ -1,5 +1,5 @@
 <template>
-    <div class="foot">
+    <div class="foot" v-show="isHeaderFooterShow">
         <tabbar style="position:fixed;" v-model="selected" v-show="show">
             <tabbar-item >
                 <img slot="icon" src="./../../assets/image/enter.png">
@@ -18,6 +18,7 @@
 
 <script>
 import { Tabbar, TabbarItem } from 'vux'
+import {mapState} from 'vuex'
 export default {
     name:"foot",
     components:{
@@ -30,6 +31,9 @@ export default {
             show:true
         }
     },
+    computed:{
+    ...mapState(['isHeaderFooterShow'])
+  },
     watch:{
         selected(val,oldVal){
             if(val == 0){
