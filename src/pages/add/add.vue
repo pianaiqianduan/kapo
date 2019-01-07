@@ -12,8 +12,8 @@
             </div>
             <divider >搜索产品列表</divider>
             <button-tab v-model="demo01" style="margin-top:10px">
-                <button-tab-item selected @on-item-click = "whatchIndex()">箱</button-tab-item>
-                <button-tab-item @on-item-click = "whatchIndex()">袋</button-tab-item>
+                <button-tab-item selected>箱</button-tab-item>
+                <button-tab-item>袋</button-tab-item>
             </button-tab>
         
         </div>
@@ -72,12 +72,9 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1','getIndex']),       //mutation中的方法动态改变state中的数据
+        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1']),       //mutation中的方法动态改变state中的数据
         getResult(val){  //输入文字变化触发
             this.results = val? getResult(this.value):[]
-        },
-        whatchIndex(){
-            this.getIndex(this.demo01)
         },
          choose(val){   //当多选值发生变化时
             this.checkedArr(val)

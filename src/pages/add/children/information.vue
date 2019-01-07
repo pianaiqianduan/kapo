@@ -13,6 +13,12 @@
         
         <div class="tj">
             <flexbox>
+                <FlexboxItem>
+                    <p style="padding-left:8%">订单总数量:
+                        <span style="color:rgb(151,5,5)">{{this.numBox}}</span>箱
+                        <span style="color:rgb(151,5,5)">{{this.numBag}}</span>袋
+                    </p>
+                </FlexboxItem>
                 <flexbox-item >
                     <x-button type="primary"  @click.native="tj">提交</x-button>
                 </flexbox-item>
@@ -32,6 +38,7 @@ import{  Flexbox, FlexboxItem ,XButton,Cell} from 'vux';
 import { mapState , mapGetters, mapMutations } from 'vuex'
 export default {
     name:'information',
+    props:['numBox','numBag'],
     components:{
         Group,
         Selector,
@@ -47,7 +54,7 @@ export default {
         return{
             dateValue:'',    //时间日期选择
             titD:"送货日期选择"+`<span style="color:red">*</span>`,   //添加*为必填选项
-            textValue:''   //备注单号填写
+            textValue:'',   //备注单号填写
         }
     },
    computed:{

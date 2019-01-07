@@ -177,15 +177,6 @@ export default ({
         }
     },
 
-    //切换tab时调用
-    getIndex(state, index) {
-        if (index == 0) {
-            state.getIndex = false
-        } else if (index == 1) {
-            state.getIndex = true
-        }
-    },
-
     //点击搜索框右侧取消按钮时，清空选中的集合里的数据
     cancelCheckedArr(state) {
         state.checkedArr = []
@@ -245,6 +236,16 @@ export default ({
     //提交成功后删除getChooseList中的数据
     cancelChooseList(state) {
         state.getChooseList = []
+    },
+
+    //删除getBagList中的数据
+    cancelGetBagList(state) {
+        state.getBagList = []
+    },
+
+    //删除箱袋的并集
+    cancelNoChangeList(state) {
+        state.noChangeList = []
     },
 
     //获取单个订单中的信息和产品并组合

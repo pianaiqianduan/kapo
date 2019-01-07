@@ -3,8 +3,8 @@
         <Flexbox>
             <FlexboxItem>
                 <p style="padding-left:8%">订单总数量:
-                    <span style="color:rgb(151,5,5)" v-show = "!this.getIndex">{{this.allNum}}箱</span>
-                    <span style="color:rgb(151,5,5)" v-show = "this.getIndex">{{this.allBagNum}}袋</span>
+                    <span style="color:rgb(151,5,5)">{{this.allNum}}</span>箱
+                    <span style="color:rgb(151,5,5)">{{this.allBagNum}}</span>袋
                 </p>
             </FlexboxItem>
             <FlexboxItem>
@@ -58,7 +58,7 @@ export default {
         
     },
     computed:{
-        ...mapState(['isHaveProduct','getIndex']),
+        ...mapState(['isHaveProduct']),
         ...mapGetters(['allNum','allBagNum'])
     },
     mounted(){

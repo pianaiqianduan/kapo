@@ -5,8 +5,6 @@ export default ({
 
     noChangeList: [], //永远不会变化的数组（是getChooseList和getBagList的并集）
 
-    getIndex: false,
-
     isHave: false, //是否有重复的
 
     isHaveArr: [], //重复的产品数组
@@ -33,5 +31,5 @@ export default ({
 
     chooseStoreList: "", //选中的门店
 
-    isHeaderCenterShow: false //头部导航中间部分是否显示
+    isHeaderCenterShow: false, //头部导航中间部分是否显示
 })

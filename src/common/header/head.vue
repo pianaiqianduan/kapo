@@ -52,7 +52,7 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['scanChooseListBox','scanChooseListBag','noChangeList']),
+        ...mapMutations(['scanChooseListBox','scanChooseListBag','noChangeList','cancelChooseList','cancelGetBagList','cancelNoChangeList']),
         out(){
             if(this.headerRight == '门店选择'){    //头部右侧的内容为‘退出登录’
                 const _this = this   //改变this指向
@@ -60,6 +60,9 @@ export default {
                     title:"注意",
                     content:"您确定要重新选择门店吗？",
                     onConfirm () {    //点击确定的回调
+                        _this.cancelChooseList()
+                        _this.cancelGetBagList()
+                        _this.cancelNoChangeList()
                         _this.$router.push({path:"/selectStore"})
                     }
                 })
