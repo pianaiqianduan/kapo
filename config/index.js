@@ -15,7 +15,7 @@ module.exports = {
                 target: 'http://192.168.16.147:8080/synear/', //源地址 
                 changeOrigin: true, //改变源 
                 pathRewrite: {
-                    '^/api': '/' //路径重写 
+                    '^/api': '/api' //路径重写 
                 }
             }
         },
