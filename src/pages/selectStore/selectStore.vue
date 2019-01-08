@@ -118,6 +118,7 @@ export default {
                 //         _this.$router.push({path:"/"})
                 //     }
                 // })
+                sessionStorage.ischoose="choose"
                 this.$router.push({path:"/"})
             }else{
                 this.$vux.alert.show({
