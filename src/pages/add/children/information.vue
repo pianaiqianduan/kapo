@@ -57,10 +57,8 @@ export default {
             textValue:'',   //备注单号填写
         }
     },
-   computed:{
-        ...mapState(['chooseStoreObj'])
-    },
-    watch:{
+    computed:{
+        ...mapState(['tjProductList','chooseStoreObj'])
     },
     methods:{
         
@@ -129,27 +127,6 @@ export default {
        }
 
     },
-    computed:{
-        ...mapState(['tjProductList'])
-    },
-    // created(){
-    //     let dayN = new Date()  //创建日期对象
-    //     let year = dayN.getFullYear()
-    //     let mon = dayN.getMonth()
-    //     if(mon+1 < 10){
-    //         mon = '0' + (mon+1)
-    //     }else{
-    //         mon = mon+1
-    //     }
-    //     let day = dayN.getDate()
-    //     if(day < 10){
-    //         day = '0' + day
-    //     }
-    //     let Tday = year + '-' + mon + '-' + day
-    //     this.dateValue = Tday
-    //     console.log(this.dateValue)
-    // }
-    
 }
 </script>
 
