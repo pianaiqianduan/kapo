@@ -44,8 +44,8 @@ module.exports = {
         assetsRoot: path.resolve(__dirname, '../kapo'),
         assetsSubDirectory: 'static',
         // assetsPublicPath: '/kapo/',
-        assetsPublicPath: '/webpage/weixin/kapo/',
-        // assetsPublicPath: '/workspace/weixin/kapo/',
+        // assetsPublicPath: '/webpage/weixin/kapo/',  //正式
+        assetsPublicPath: '/workspace/weixin/kapo/', //本地测试
 
         /**
          * Source Maps
