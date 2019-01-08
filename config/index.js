@@ -10,7 +10,15 @@ module.exports = {
         // Paths
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
-        proxyTable: {},
+        proxyTable: {
+            '/api': {
+                target: 'http://192.168.16.147:8080/synear/', //源地址 
+                changeOrigin: true, //改变源 
+                pathRewrite: {
+                    '^/api': '' //路径重写 
+                }
+            }
+        },
 
         // Various Dev Server settings
         host: '192.168.16.151', // can be overwritten by process.env.HOST
