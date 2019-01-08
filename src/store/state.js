@@ -13,7 +13,7 @@ export default ({
 
     productList: [], //产品订单数据,渲染用
 
-    tjProductList: [], //总提交需要的产品组信息
+    // tjProductList: [], //总提交需要的产品组信息
 
     orderList: [], //单个订单的产品数组
 

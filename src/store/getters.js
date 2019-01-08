@@ -17,7 +17,7 @@ export default ({
             products.push(obj)
         }
         console.log(products)
-        state.tjProductList = products
+        return products
     },
 
     //计算属性 -- 产品总数量(箱)

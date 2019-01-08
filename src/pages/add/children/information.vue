@@ -58,7 +58,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['tjProductList','chooseStoreObj'])
+        ...mapGetters(['products']),
+        ...mapState(['chooseStoreObj'])
     },
     methods:{
         
@@ -78,7 +79,7 @@ export default {
                     
                     },
                     onConfirm () {    //确定的回调
-                        console.log(_this.tjProductList)
+                        console.log(_this.products)
                         _this.$axios.get(_this.url+'preorderKaController.do?saveKaddcx',{         
                                 params:{
                                     userName:localStorage.userName,
@@ -89,7 +90,7 @@ export default {
                                     // passWord:"123456",
                                     // customerCode:"20090083",
                                     // storescode:"01",
-                                    products:JSON.stringify(_this.tjProductList) ,  //产品
+                                    products:JSON.stringify(_this.products) ,  //产品
                                     dbillDate:_this.dateValue,  //日期
                                     vnote:_this.textValue     //备注
                                 }
