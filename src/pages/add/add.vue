@@ -204,7 +204,7 @@ export default {
     },
     computed:{   //计算属性
         ...mapState(
-            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreId']
+            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreObj']
         ),
     },
     created(){
@@ -268,7 +268,7 @@ export default {
             params:{
                 userName:localStorage.userName,
                 passWord:localStorage.passWord,
-                customerid:this.chooseStoreId.key
+                customerid:this.chooseStoreObj.key
             }
         }).then(res=>{
             console.log(res)
