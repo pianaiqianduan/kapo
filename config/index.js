@@ -12,7 +12,7 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': {
-                target: 'http://192.168.16.147:8080/synear/', //源地址 
+                target: 'http://192.168.16.147:8080', //源地址 
                 changeOrigin: true, //改变源 
                 secure: false,
                 pathRewrite: {
