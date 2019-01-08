@@ -29,7 +29,7 @@ export default ({
 
     isHeaderFooterShow: true, //头部导航和底部导航是否显示
 
-    chooseStoreList: "", //选中的门店
+    chooseStoreObj: {}, //选中的门店(title,key,customerCode,storescod)
 
     isHeaderCenterShow: false, //头部导航中间部分是否显示
 })

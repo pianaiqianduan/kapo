@@ -36,12 +36,7 @@
 </template>
 
 <script>
-// var kaObj = JSON.parse(sessionStorage.kaObj)
-// var userName = localStorage.userName
-// var passWord = localStorage.passWord
-
-import { Search, XButton, Divider, Checklist } from 'vux'
-import { ButtonTab, ButtonTabItem } from 'vux'
+import { Search, XButton, Divider, Checklist,ButtonTab, ButtonTabItem } from 'vux'
 import { mapMutations,mapState } from 'vuex'
 import pannel from './children/pannel'
 import pannelBag from './children/pannelBag'
@@ -209,30 +204,30 @@ export default {
     },
     computed:{   //计算属性
         ...mapState(
-            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList']
+            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreId']
         ),
     },
-    // created(){
-    //     let url = location.href.split('#')[0]    //获取地址栏参数并修改
-    //     this.$axios.get('http://171.8.66.195:8080/synear/orderReceiptController.do?getWechatConfigureList'+'&url='+url  ,{
-    //     }).then(res =>{
-    //         console.log(res)
-    //         let data = JSON.parse(res.data.slice(1,res.data.length-1))
-    //         console.log(data)
-    //         this.$wechat.config({
-    //                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    //                 appId: 'wxc61954ab5a7b5efb', // 必填，公众号的唯一标识
-    //                 timestamp: data.timestamp, // 必填，生成签名的时间戳
-    //                 nonceStr: data.noncestr, // 必填，生成签名的随机串
-    //                 signature: data.signature, // 必填，签名
-    //                 jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
-    //             })
-    //     })
-    //     this.$wechat.error(function (res) {
-    //         console.log(res)
-    //         alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
-    //     });
-    // },
+    created(){
+        let url = location.href.split('#')[0]    //获取地址栏参数并修改
+        this.$axios.get('http://171.8.66.195:8080/synear/orderReceiptController.do?getWechatConfigureList'+'&url='+url  ,{
+        }).then(res =>{
+            console.log(res)
+            let data = JSON.parse(res.data.slice(1,res.data.length-1))
+            console.log(data)
+            this.$wechat.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: 'wxc61954ab5a7b5efb', // 必填，公众号的唯一标识
+                    timestamp: data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: data.noncestr, // 必填，生成签名的随机串
+                    signature: data.signature, // 必填，签名
+                    jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
+                })
+        })
+        this.$wechat.error(function (res) {
+            console.log(res)
+            alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+        });
+    },
     watch:{
         //判断页面高度，解决输入框把页面底部顶起的问题
         showHeight:function() {
@@ -271,12 +266,9 @@ export default {
         //获取产品列表
         this.$axios.get(this.url+'preorderKaController.do?getProductList',{         
             params:{
-                // userName:userName,
-                // passWord:passWord,
-                // customerid:kaObj.customerid
-                userName:"20090083",
-                passWord:"123456",
-                customerid:"e4e481b74d6b06f9014d6b186869019f"
+                userName:localStorage.userName,
+                passWord:localStorage.passWord,
+                customerid:this.chooseStoreId.key
             }
         }).then(res=>{
             console.log(res)
@@ -298,10 +290,6 @@ function getResult(val){
         productList.map(function(item){
             if(item.itemdesc.search(val) != -1){
                 re.push({
-                    // title:item.itemdesc,
-                    // spec:item.itemspec,
-                    // id:item.productSapId,
-                    // num:0
                     value:item.itemdesc,    //产品名称
                     key:item.productSapId,  //产品id
                 })

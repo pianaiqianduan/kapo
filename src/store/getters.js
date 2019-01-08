@@ -2,10 +2,17 @@ export default ({
     //计算属性--总提交
     msgTj(state) {
         let products = []
-        for (let t in state.getChooseList) {
+        for (let t in state.getChooseList) { //箱
             let obj = {
                 productSapId: state.getChooseList[t].id,
                 nnumber: state.getChooseList[t].num
+            }
+            products.push(obj)
+        }
+        for (let h in state.getBagList) { //袋
+            let obj = {
+                productSapId: state.getChooseList[h].id,
+                npacknumber: state.getChooseList[h].num
             }
             products.push(obj)
         }

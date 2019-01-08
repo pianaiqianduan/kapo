@@ -1,7 +1,7 @@
 <template>
     <div class="head" style="position:fixed;left:0;right:0;top:0;z-index:999">
         <x-header :left-options="headerLeftShow">
-            <marquee scrollamount="1" v-if="isHeaderCenterShow">{{this.chooseStoreList}}</marquee>
+            <marquee scrollamount="1" v-if="isHeaderCenterShow">{{this.chooseStoreList.title}}</marquee>
             <a slot="right" @click="out">{{headerRight}}</a>
         </x-header>
     </div>
@@ -47,7 +47,7 @@ export default {
         isHeaderCenterShow(){    //导航栏中间的部分是否显示
             return this.$store.state.isHeaderCenterShow
         },
-        chooseStoreList(){     //选中的门店名称
+        chooseStoreList(){     //选中的门店(title,key,customerCode,storescode)
             return this.$store.state.chooseStoreList
         }
     },
@@ -59,14 +59,15 @@ export default {
                 this.$vux.confirm.show({
                     title:"注意",
                     content:"您确定要重新选择门店吗？",
-                    onConfirm () {    //点击确定的回调
+                    onConfirm () {    //点击确定的回调--清空数组
                         _this.cancelChooseList()
                         _this.cancelGetBagList()
                         _this.cancelNoChangeList()
                         _this.$router.push({path:"/selectStore"})
                     }
                 })
-            }else if(this.headerRight == '退出登录'){
+            }
+            else if(this.headerRight == '退出登录'){
                 const _this = this   //改变this指向
                 this.$vux.confirm.show({
                     title:"注意",
@@ -77,7 +78,8 @@ export default {
                         window.location.href = '../login.html' //跳转到登录页面
                     }
                 })
-            }else if(this.headerRight == '确定'){    //头部右侧的内容为‘确定’
+            }
+            else if(this.headerRight == '确定'){    //头部右侧的内容为‘确定’
                 if(this.checkedArr.length){      //多选有选中的值
                         this.$store.commit('isClick',true)  //调用Mutation中的isClick方法修改State中isClick的值
                         let productListObj = JSON.parse(sessionStorage.productList)  //获取到产品数组
@@ -106,34 +108,16 @@ export default {
                         }
                         this.$axios.get(this.url+'preorderKaController.do?checkProducts',{      //调用接口获取产品信息   
                         params:{
-                            userName:"20090083",
-                            passWord:"123456",
-                            customerCode:"20090083",
-                            storescode:"01",
-                            // userName:userName,
-                            // passWord:passWord,
-                            // customerCode:kaObj.customerCode,
-                            // storescode:kaObj.storescode,
+                            userName:localStorage.userName,
+                            passWord:localStorage.passWord,
+                            customerCode:this.chooseStoreList.customerCode,
+                            storescode:this.chooseStoreList.storescode,
                             sapIds:opt
                         }
                         }).then(res=>{
                             console.log(res)
                             if(res.data.success == true){ //请求成功
-                             this.$store.commit('changeHeaderRight','门店选择')
-                                // let item = []  
-                                // for(let i in res.data.products){  //处理请求到的数据
-                                //     let obj ={
-                                //         title:res.data.products[i].itemdesc, //产品名称
-                                //         id:res.data.products[i].productSapId, //产品id
-                                //         spec:res.data.products[i].itemspec,  //产品吗描述
-                                //         num:0,  //新增的数量字段
-                                //     }
-                                //     item.push(obj)
-                                // }
-                                // if(item.length){  //添加选中的产品的所有信息到getChooseList中
-                                //     this.scanChooseListBox(item)
-                                //     this.scanChooseListBag(item)  
-                                // }
+                                this.$store.commit('changeHeaderRight','门店选择')
                                 this.scanChooseListBox(res.data.products)
                                 this.scanChooseListBag(res.data.products)
                                 this.noChangeList(res.data.products)

@@ -48,31 +48,31 @@ export default {
             value:"",
             storeName:"",  //选中的门店名称
             storeList:[
-                {key:"01",title:"郑州思念食品"},
-                {key:"02",title:"郑州思念食品经销商下单门店2(编码:AABCDEFG123456)"},
-                {key:"03",title:"郑州思念食品经销商下单门店3"},
-                {key:"04",title:"郑州思念食品经销商下单门店4"},
-                {key:"05",title:"郑州思念食品经销商下单门店5"},
-                {key:"06",title:"郑州思念食品经销商下单门店6"},
-                {key:"07",title:"郑州思念食品经销商下单门店7"},
-                {key:"08",title:"郑州思念食品经销商下单门店8"},
-                {key:"09",title:"郑州思念食品经销商下单门店9"},
-                {key:"10",title:"郑州思念食品经销商下单门店10"},
-                {key:"11",title:"郑州思念食品经销商下单门店11"},
-                {key:"12",title:"郑州思念食品经销商下单门店12"},
-                {key:"13",title:"郑州思念食品经销商下单门店13"},
-                {key:"14",title:"郑州思念食品经销商下单门店14"},
-                {key:"15",title:"郑州思念食品经销商下单门店15"},
-                {key:"16",title:"郑州思念食品经销商下单门店16"},
-                {key:"17",title:"郑州思念食品经销商下单门店17"},
-                {key:"18",title:"郑州思念食品经销商下单门店18"},
-                {key:"19",title:"郑州思念食品经销商下单门店19"},
-                {key:"20",title:"郑州思念食品经销商下单门店20"},
-                {key:"21",title:"郑州思念食品经销商下单门店21"},
-                {key:"22",title:"郑州思念食品经销商下单门店22"},
-                {key:"23",title:"郑州思念食品经销商下单门店23"},
-                {key:"24",title:"郑州思念食品经销商下单门店24"},
-                {key:"25",title:"郑州思念食品经销商下单门店25"}
+                // {key:"01",title:"郑州思念食品"},
+                // {key:"02",title:"郑州思念食品经销商下单门店2(编码:AABCDEFG123456)"},
+                // {key:"03",title:"郑州思念食品经销商下单门店3"},
+                // {key:"04",title:"郑州思念食品经销商下单门店4"},
+                // {key:"05",title:"郑州思念食品经销商下单门店5"},
+                // {key:"06",title:"郑州思念食品经销商下单门店6"},
+                // {key:"07",title:"郑州思念食品经销商下单门店7"},
+                // {key:"08",title:"郑州思念食品经销商下单门店8"},
+                // {key:"09",title:"郑州思念食品经销商下单门店9"},
+                // {key:"10",title:"郑州思念食品经销商下单门店10"},
+                // {key:"11",title:"郑州思念食品经销商下单门店11"},
+                // {key:"12",title:"郑州思念食品经销商下单门店12"},
+                // {key:"13",title:"郑州思念食品经销商下单门店13"},
+                // {key:"14",title:"郑州思念食品经销商下单门店14"},
+                // {key:"15",title:"郑州思念食品经销商下单门店15"},
+                // {key:"16",title:"郑州思念食品经销商下单门店16"},
+                // {key:"17",title:"郑州思念食品经销商下单门店17"},
+                // {key:"18",title:"郑州思念食品经销商下单门店18"},
+                // {key:"19",title:"郑州思念食品经销商下单门店19"},
+                // {key:"20",title:"郑州思念食品经销商下单门店20"},
+                // {key:"21",title:"郑州思念食品经销商下单门店21"},
+                // {key:"22",title:"郑州思念食品经销商下单门店22"},
+                // {key:"23",title:"郑州思念食品经销商下单门店23"},
+                // {key:"24",title:"郑州思念食品经销商下单门店24"},
+                // {key:"25",title:"郑州思念食品经销商下单门店25"}
             ],
         }
     },
@@ -83,8 +83,24 @@ export default {
             }
         }
     },
+    created(){
+        let storeList = [{customerCode: "20070886",customerId: "e4e481b74d659b5c014d661e9c1a125e",customerName: "欧尚（中国）投资有限公司（嘉定2店）",
+        storescode: "17"}]
+        let storeItems = []
+        for(let k in storeList){
+            let storeItem={
+                key: storeList[k].customerId,
+                title:storeList[k].customerName,
+                customerCode:storeList[k].customerCode,
+                storescode:storeList[k].storescode
+            }
+            storeItems.push(storeItem)
+        }
+        this.storeList = storeItems
+        console.log(storeItems)
+    },
     methods:{
-        ...mapMutations(['chooseStoreList']),
+        ...mapMutations(['chooseStoreObj']),
 
         getResult(val){         //输入文字变化触发
             this.results = val? getResult(this.value,this.storeList):[];
@@ -96,28 +112,15 @@ export default {
             
         },
         resultClick(val){     //点击选择条目时触发、
-
             if(val.title != "没有匹配结果,请检查门店名称是否正确"){
-                this.chooseStoreList(val.title) 
+                this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
                 this.storeName = val.title 
             }
                          
         },
         sure(){           //点击去下单按钮时触发
             if(this.storeName){
-                // this.chooseStoreList(this.storeName) 
-                // let _this = this    //改变this指向
-                // this.$vux.confirm.show({
-                //     title:"您本次所选中的门店为:",
-                //     content: _this.storeName,
-                //     onCancel () {  //取消
-            
-                //     },
-                //     onConfirm () {  //确定
-                //         sessionStorage.ischoose="choose"
-                //         _this.$router.push({path:"/"})
-                //     }
-                // })
+                
                 sessionStorage.ischoose="choose"
                 this.$router.push({path:"/"})
             }else{
@@ -142,7 +145,9 @@ function getResult(val,storeList){       //模糊查询方法
             flag = true
                 re.push({
                 title:productList[i].title,    
-                key:productList[i].key,  
+                key:productList[i].key, 
+                customerCode: productList[i].customerCode,
+                storescode: productList[i].storescode
             })
         }else{
             if(!flag && i ==productList.length-1){
@@ -166,6 +171,8 @@ function focusGetResult(storeList){      //模糊查询方法
         re.push({
             title:item.title,    
             key:item.key,  
+            customerCode: item.customerCode,
+            storescode: item.storescode
         })
         
     })

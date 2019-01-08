@@ -1,8 +1,9 @@
 export default ({
 
-    /**获取选中的门店 */
-    chooseStoreList(state, arr) {
-        state.chooseStoreList = arr
+    /**获取选中的门店id,用于获取产品列表 */
+    chooseStoreObj(state, storeObj) {
+        console.log(storeObj)
+        state.chooseStoreObj = storeObj
     },
 
     //从多选选中的产品数组集合
