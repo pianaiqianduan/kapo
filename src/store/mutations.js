@@ -236,7 +236,10 @@ export default ({
 
     //提交成功后删除getChooseList中的数据
     cancelChooseList(state) {
-        state.getChooseList = []
+        state.getChooseList = [] //箱中的数据
+        state.getBagList = [] //袋中的数据
+        state.noChangeList = [] //永远不变的数组
+        state.productList = [] //产品订单数据
     },
 
     //删除getBagList中的数据
