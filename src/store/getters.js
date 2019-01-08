@@ -11,11 +11,12 @@ export default ({
         }
         for (let h in state.getBagList) { //袋
             let obj = {
-                productSapId: state.getChooseList[h].id,
-                npacknumber: state.getChooseList[h].num
+                productSapId: state.getBagList[h].id,
+                npacknumber: state.getBagList[h].num
             }
             products.push(obj)
         }
+        console.log(products)
         state.tjProductList = products
     },
 
