@@ -58,7 +58,6 @@ export default {
         }
     },
    computed:{
-        ...mapGetters(['msgTj']),
         ...mapState(['chooseStoreObj'])
     },
     watch:{
@@ -81,7 +80,6 @@ export default {
                     
                     },
                     onConfirm () {    //确定的回调
-                        _this.msgTj()
                         console.log(_this.tjProductList)
                         _this.$axios.get(_this.url+'preorderKaController.do?saveKaddcx',{         
                                 params:{
