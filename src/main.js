@@ -48,9 +48,9 @@ FastClick.attach(document.body)
 
 //增加原型链,实例也能调用
 Vue.prototype.$axios = axios
-Vue.prototype.url = '/api/synear/'
+    // Vue.prototype.url = '/api/synear/'
     // Vue.prototype.url = 'http://222.88.22.69:8080/synear/' //46测试服务器
-    // Vue.prototype.url = 'http://192.168.16.147:8080/synear/' //张闯本地测试服务器
+Vue.prototype.url = 'http://192.168.16.147:8080/synear/' //张闯本地测试服务器
     // Vue.prototype.url = '/'
 Vue.prototype.bus = new Vue();
 

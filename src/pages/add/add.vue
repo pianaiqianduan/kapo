@@ -268,7 +268,7 @@ export default {
             params:{
                 userName:localStorage.userName,
                 passWord:localStorage.passWord,
-                customerid:this.chooseStoreObj.key
+                customerId:this.chooseStoreObj.key
             }
         }).then(res=>{
             console.log(res)
