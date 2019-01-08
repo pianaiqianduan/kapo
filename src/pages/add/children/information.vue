@@ -20,7 +20,7 @@
                     </p>
                 </FlexboxItem>
                 <flexbox-item >
-                    <x-button type="primary"  @click.native="tj">提交</x-button>
+                    <x-button type="primary"  @click.native="tj">确认提交</x-button>
                 </flexbox-item>
             </flexbox>
         </div>

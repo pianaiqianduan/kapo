@@ -11,7 +11,7 @@
         <divider>选择结果</divider>
         <div style="margin-top:15%">
             <group label-width="5em" >
-                <cell title="门店名称：" value-align="left">
+                <cell title="所选门店:" value-align="left">
                     <div>
                         <span style="color: green">{{storeName}}</span>
                     </div>
@@ -31,6 +31,7 @@
 
 import { Group, XButton,Search, Divider, Cell} from 'vux'
 import {mapMutations } from 'vuex'
+import { watch } from 'fs';
 
 export default {
     name:'selectStore',
@@ -75,7 +76,13 @@ export default {
             ],
         }
     },
-
+    watch:{
+        value(val){
+            if(!val){
+                this.results = this.storeList
+            }
+        }
+    },
     methods:{
         ...mapMutations(['chooseStoreList']),
 
@@ -98,26 +105,28 @@ export default {
         },
         sure(){           //点击去下单按钮时触发
             if(this.storeName){
-                this.chooseStoreList(this.storeName) 
-                let _this = this    //改变this指向
-                this.$vux.confirm.show({
-                    title:"请确认您选中的门店名称是否正确",
-                    content: _this.storeName,
-                    onCancel () {  //取消
+                // this.chooseStoreList(this.storeName) 
+                // let _this = this    //改变this指向
+                // this.$vux.confirm.show({
+                //     title:"您本次所选中的门店为:",
+                //     content: _this.storeName,
+                //     onCancel () {  //取消
             
-                    },
-                    onConfirm () {  //确定
-                        sessionStorage.ischoose="choose"
-                        _this.$router.push({path:"/"})
-                    }
-                })
+                //     },
+                //     onConfirm () {  //确定
+                //         sessionStorage.ischoose="choose"
+                //         _this.$router.push({path:"/"})
+                //     }
+                // })
+                this.$router.push({path:"/"})
             }else{
                 this.$vux.alert.show({
                     title: '注意',
                     content: '请选中门店后再下单',
                 })
             }
-        }
+        },
+        
     },
    
     

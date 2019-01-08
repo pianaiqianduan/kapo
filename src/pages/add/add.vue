@@ -80,7 +80,7 @@ export default {
             this.checkedArr(val)
         },
         cancel(){  //点击取消时触发
-            this.$store.commit('changeHeaderRight','退出登录')
+            this.$store.commit('changeHeaderRight','门店选择')
             this.isShow = false
             this.results = []
             this.value = ''
@@ -212,27 +212,27 @@ export default {
             ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList']
         ),
     },
-    created(){
-        let url = location.href.split('#')[0]    //获取地址栏参数并修改
-        this.$axios.get('http://171.8.66.195:8080/synear/orderReceiptController.do?getWechatConfigureList'+'&url='+url  ,{
-        }).then(res =>{
-            console.log(res)
-            let data = JSON.parse(res.data.slice(1,res.data.length-1))
-            console.log(data)
-            this.$wechat.config({
-                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                    appId: 'wxc61954ab5a7b5efb', // 必填，公众号的唯一标识
-                    timestamp: data.timestamp, // 必填，生成签名的时间戳
-                    nonceStr: data.noncestr, // 必填，生成签名的随机串
-                    signature: data.signature, // 必填，签名
-                    jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
-                })
-        })
-        this.$wechat.error(function (res) {
-            console.log(res)
-            alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
-        });
-    },
+    // created(){
+    //     let url = location.href.split('#')[0]    //获取地址栏参数并修改
+    //     this.$axios.get('http://171.8.66.195:8080/synear/orderReceiptController.do?getWechatConfigureList'+'&url='+url  ,{
+    //     }).then(res =>{
+    //         console.log(res)
+    //         let data = JSON.parse(res.data.slice(1,res.data.length-1))
+    //         console.log(data)
+    //         this.$wechat.config({
+    //                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    //                 appId: 'wxc61954ab5a7b5efb', // 必填，公众号的唯一标识
+    //                 timestamp: data.timestamp, // 必填，生成签名的时间戳
+    //                 nonceStr: data.noncestr, // 必填，生成签名的随机串
+    //                 signature: data.signature, // 必填，签名
+    //                 jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
+    //             })
+    //     })
+    //     this.$wechat.error(function (res) {
+    //         console.log(res)
+    //         alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+    //     });
+    // },
     watch:{
         //判断页面高度，解决输入框把页面底部顶起的问题
         showHeight:function() {
