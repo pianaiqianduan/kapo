@@ -22,19 +22,21 @@ Vue.use(ToastPlugin)
 
 //添加请求拦截器
 axios.interceptors.request.use((config) => { 
-    Vue.$vux.loading.show({ //显示加载动画
+    Vue.$vux.loading.show({ //请求之前设置加载动画
         text: 'Loading'
     })
     return config;
 }, (err) => {
+    Vue.$vux.loading.hide() //请求错误并隐藏加载动画
     return Promise.reject(err)
 })
 
 // 添加响应拦截器
 axios.interceptors.response.use(function(response) {
-    Vue.$vux.loading.hide() //隐藏加载动画
+    Vue.$vux.loading.hide() //响应数据并隐藏加载动画
     return response;
-}, function(error) {
+}, function(error) { //响应错误也要隐藏加载动画
+    Vue.$vux.loading.hide()
     return Promise.reject(error);
 });
 
