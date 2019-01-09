@@ -84,8 +84,8 @@ export default {
         }
     },
     created(){
-        let storeList = [{customerCode: "20070886",customerId: "e4e481b74d659b5c014d661e9c1a125e",customerName: "欧尚（中国）投资有限公司（嘉定2店）",
-        storescode: "17"}]
+        alert(created)
+        let storeList = JSON.parse(sessionStorage.kaStoreList)
         let storeItems = []
         for(let k in storeList){
             let storeItem={
@@ -98,6 +98,9 @@ export default {
         }
         this.storeList = storeItems
         console.log(storeItems)
+    },
+    mounted(){
+        alert(mounted)
     },
     methods:{
         ...mapMutations(['chooseStoreObj']),
