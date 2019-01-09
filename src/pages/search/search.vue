@@ -40,7 +40,16 @@
                               
                                 <td v-if="item.state=='1'">自由</td>
                                 <td v-else>已生成订单</td>
-                                <td>{{item.totalNumber}}</td>
+                                <td v-if="item.totalNumber && item.totalPackageNumber">
+                                    <span style="color:red">{{item.totalNumber}}</span>箱
+                                    <span style="color:red">{{item.totalPackageNumber}}</span>袋       
+                                </td>
+                                <td v-else-if="item.totalNumber && !item.totalPackageNumber">
+                                    <span style="color:red">{{item.totalNumber}}</span>箱
+                                </td>
+                                <td v-else-if="!item.totalNumber && item.totalPackageNumber">
+                                    <span style="color:red">{{item.totalPackageNumber}}</span>袋   
+                                </td>
                             </tr>
                             
                         </tbody>
