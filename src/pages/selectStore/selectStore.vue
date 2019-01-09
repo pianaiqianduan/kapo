@@ -84,7 +84,7 @@ export default {
         }
     },
     created(){
-        alert(created)
+        alert('created')
         let storeList = JSON.parse(sessionStorage.kaStoreList)
         let storeItems = []
         for(let k in storeList){
@@ -100,7 +100,7 @@ export default {
         console.log(storeItems)
     },
     mounted(){
-        alert(mounted)
+        alert('mounted')
     },
     methods:{
         ...mapMutations(['chooseStoreObj']),
