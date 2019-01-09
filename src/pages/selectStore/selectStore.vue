@@ -47,33 +47,7 @@ export default {
             results:[],
             value:"",
             storeName:"",  //选中的门店名称
-            storeList:[
-                // {key:"01",title:"郑州思念食品"},
-                // {key:"02",title:"郑州思念食品经销商下单门店2(编码:AABCDEFG123456)"},
-                // {key:"03",title:"郑州思念食品经销商下单门店3"},
-                // {key:"04",title:"郑州思念食品经销商下单门店4"},
-                // {key:"05",title:"郑州思念食品经销商下单门店5"},
-                // {key:"06",title:"郑州思念食品经销商下单门店6"},
-                // {key:"07",title:"郑州思念食品经销商下单门店7"},
-                // {key:"08",title:"郑州思念食品经销商下单门店8"},
-                // {key:"09",title:"郑州思念食品经销商下单门店9"},
-                // {key:"10",title:"郑州思念食品经销商下单门店10"},
-                // {key:"11",title:"郑州思念食品经销商下单门店11"},
-                // {key:"12",title:"郑州思念食品经销商下单门店12"},
-                // {key:"13",title:"郑州思念食品经销商下单门店13"},
-                // {key:"14",title:"郑州思念食品经销商下单门店14"},
-                // {key:"15",title:"郑州思念食品经销商下单门店15"},
-                // {key:"16",title:"郑州思念食品经销商下单门店16"},
-                // {key:"17",title:"郑州思念食品经销商下单门店17"},
-                // {key:"18",title:"郑州思念食品经销商下单门店18"},
-                // {key:"19",title:"郑州思念食品经销商下单门店19"},
-                // {key:"20",title:"郑州思念食品经销商下单门店20"},
-                // {key:"21",title:"郑州思念食品经销商下单门店21"},
-                // {key:"22",title:"郑州思念食品经销商下单门店22"},
-                // {key:"23",title:"郑州思念食品经销商下单门店23"},
-                // {key:"24",title:"郑州思念食品经销商下单门店24"},
-                // {key:"25",title:"郑州思念食品经销商下单门店25"}
-            ],
+            storeList:[],
         }
     },
     watch:{
@@ -84,7 +58,6 @@ export default {
         }
     },
     created(){
-        alert('created')
         let storeList = JSON.parse(sessionStorage.kaStoreList)
         let storeItems = []
         for(let k in storeList){
@@ -98,9 +71,6 @@ export default {
         }
         this.storeList = storeItems
         console.log(storeItems)
-    },
-    mounted(){
-        alert('mounted')
     },
     methods:{
         ...mapMutations(['chooseStoreObj']),

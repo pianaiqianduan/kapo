@@ -97,8 +97,6 @@ export default {
                             }).then(res=>{                 
                                 console.log(res)
                                 if(res.data.success == true){
-                                    _this.cancelChooseList()      //删除信息
-                                    _this.textValue =""
                                     _this.$vux.toast.show({
                                         time:'1500',
                                         type:'success',
@@ -106,6 +104,8 @@ export default {
                                     })
                                     setTimeout(() => {
                                         _this.$router.push({path:"/"})
+                                        _this.cancelChooseList()      //删除信息
+                                        _this.textValue =""
                                     }, 1500);
                                     
                                 }else{
