@@ -10,7 +10,16 @@ module.exports = {
         // Paths
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
-        proxyTable: {},
+        proxyTable: {
+            // '/api': {
+            //     target: 'http://192.168.16.147:8080', //源地址 
+            //     changeOrigin: true, //改变源 
+            //     secure: false,
+            //     pathRewrite: {
+            //         '^/api': '/' //路径重写 
+            //     }
+            // }
+        },
 
         // Various Dev Server settings
         host: '192.168.16.151', // can be overwritten by process.env.HOST
@@ -44,8 +53,8 @@ module.exports = {
         assetsRoot: path.resolve(__dirname, '../kapo'),
         assetsSubDirectory: 'static',
         // assetsPublicPath: '/kapo/',
-        assetsPublicPath: '/webpage/weixin/kapo/',
-        // assetsPublicPath: '/workspace/weixin/kapo/',
+        // assetsPublicPath: '/webpage/weixin/kapo/',  //正式
+        assetsPublicPath: '/workspace/weixin/kapo/', //本地测试
 
         /**
          * Source Maps

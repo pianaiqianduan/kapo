@@ -3,7 +3,8 @@
         <Flexbox>
             <FlexboxItem>
                 <p style="padding-left:8%">订单总数量:
-                    <span style="color:rgb(151,5,5)">{{this.allNum}}</span>
+                    <span style="color:rgb(151,5,5)">{{this.allNum}}</span>箱
+                    <span style="color:rgb(151,5,5)">{{this.allBagNum}}</span>袋
                 </p>
             </FlexboxItem>
             <FlexboxItem>
@@ -58,7 +59,7 @@ export default {
     },
     computed:{
         ...mapState(['isHaveProduct']),
-        ...mapGetters(['allNum'])
+        ...mapGetters(['allNum','allBagNum'])
     },
     mounted(){
         //来判断show的值，从而实现页面的更改

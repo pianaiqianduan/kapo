@@ -10,25 +10,36 @@
                 <img src="./../../assets/image/saoma.png" alt="" style="width:10%;height:10%">
                 <x-button type="primary" style="width:65%;font-size:16px" @click.native="open">打开相机扫描包装袋条码</x-button>
             </div>
-        <divider style="margin-top:2%">搜索产品列表</divider>
+            <divider >搜索产品列表</divider>
+            <button-tab v-model="demo01" style="margin-top:10px">
+                <button-tab-item selected>箱</button-tab-item>
+                <button-tab-item>袋</button-tab-item>
+            </button-tab>
+        
         </div>
-       
-        <div class="content" v-if="this.getChooseList">
-            <pannel v-for="(item,index) in this.getChooseList" :key="index" :item= "item"></pannel>
+        <div  v-if="!demo01" >
+            <div class="content" style="margin-top:190px">
+                <pannel></pannel>
+            </div>
         </div>
+        <div v-else>
+            <div class="content" style="margin-top:190px">
+                <pannelbag ></pannelbag>
+            </div>
+                
+      
+        </div>
+        
         <close></close>
         
     </div>
 </template>
 
 <script>
-// var kaObj = JSON.parse(sessionStorage.kaObj)
-// var userName = localStorage.userName
-// var passWord = localStorage.passWord
-
-import { Search, XButton, Divider, Checklist } from 'vux'
+import { Search, XButton, Divider, Checklist,ButtonTab, ButtonTabItem } from 'vux'
 import { mapMutations,mapState } from 'vuex'
 import pannel from './children/pannel'
+import pannelBag from './children/pannelBag'
 import close from './children/close'
 export default {
     name:"add",
@@ -38,7 +49,10 @@ export default {
         Divider,
         pannel,
         close,
-        Checklist 
+        Checklist,
+        ButtonTab, 
+        ButtonTabItem,
+        pannelbag:pannelBag
     },
     data(){
         return{
@@ -49,10 +63,11 @@ export default {
             docmHeight: document.documentElement.clientHeight,  //页面的高度
             showHeight: document.documentElement.clientHeight,
             hidshow:true ,  //判断页面高度时传出去的参数
+            demo01:0
         }
     },
     methods:{
-        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr']),       //mutation中的方法动态改变state中的数据
+        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1']),       //mutation中的方法动态改变state中的数据
         getResult(val){  //输入文字变化触发
             this.results = val? getResult(this.value):[]
         },
@@ -60,7 +75,7 @@ export default {
             this.checkedArr(val)
         },
         cancel(){  //点击取消时触发
-            this.$store.commit('changeHeaderRight','退出登录')
+            this.$store.commit('changeHeaderRight','门店选择')
             this.isShow = false
             this.results = []
             this.value = ''
@@ -189,7 +204,7 @@ export default {
     },
     computed:{   //计算属性
         ...mapState(
-            ['index','isHave','pannelList','getChooseList','isShowDiv','isHaveArr','changeHeaderRight','isClick']
+            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreObj']
         ),
     },
     created(){
@@ -251,18 +266,14 @@ export default {
         //获取产品列表
         this.$axios.get(this.url+'preorderKaController.do?getProductList',{         
             params:{
-                // userName:userName,
-                // passWord:passWord,
-                // customerid:kaObj.customerid
-                userName:"20090083",
-                passWord:"123456",
-                customerid:"e4e481b74d6b06f9014d6b186869019f"
+                userName:localStorage.userName,
+                passWord:localStorage.passWord,
+                customerId:this.chooseStoreObj.key
             }
         }).then(res=>{
             console.log(res)
             if(res.data.rows.length){
                 sessionStorage.productList = JSON.stringify(res.data.rows)
-                this.$store.commit('getChooseList')
             }
         }).catch(e=>{
             this.$vux.alert.show({
@@ -279,10 +290,6 @@ function getResult(val){
         productList.map(function(item){
             if(item.itemdesc.search(val) != -1){
                 re.push({
-                    // title:item.itemdesc,
-                    // spec:item.itemspec,
-                    // id:item.productSapId,
-                    // num:0
                     value:item.itemdesc,    //产品名称
                     key:item.productSapId,  //产品id
                 })
@@ -309,9 +316,8 @@ function getResult(val){
         background: rgb(251,249,254);
     }
     .content{
-    overflow-y: scroll;
-    padding-top: 38%;
-    overflow: hidden;
+        overflow-y: scroll;
+        overflow: hidden;
     }
     .icon{
         display: inline-flex;

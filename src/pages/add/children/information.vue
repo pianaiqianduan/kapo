@@ -13,8 +13,14 @@
         
         <div class="tj">
             <flexbox>
+                <FlexboxItem>
+                    <p style="padding-left:8%">订单总数量:
+                        <span style="color:rgb(151,5,5)">{{this.numBox}}</span>箱
+                        <span style="color:rgb(151,5,5)">{{this.numBag}}</span>袋
+                    </p>
+                </FlexboxItem>
                 <flexbox-item >
-                    <x-button type="primary"  @click.native="tj">提交</x-button>
+                    <x-button type="primary"  @click.native="tj">确认提交</x-button>
                 </flexbox-item>
             </flexbox>
         </div>
@@ -32,6 +38,7 @@ import{  Flexbox, FlexboxItem ,XButton,Cell} from 'vux';
 import { mapState , mapGetters, mapMutations } from 'vuex'
 export default {
     name:'information',
+    props:['numBox','numBag'],
     components:{
         Group,
         Selector,
@@ -47,17 +54,15 @@ export default {
         return{
             dateValue:'',    //时间日期选择
             titD:"送货日期选择"+`<span style="color:red">*</span>`,   //添加*为必填选项
-            textValue:''   //备注单号填写
+            textValue:'',   //备注单号填写
         }
     },
-   computed:{
-        
-       
-    },
-    watch:{
+    computed:{
+        ...mapGetters(['msgTj']),
+        ...mapState(['chooseStoreObj'])
     },
     methods:{
-        ...mapGetters(['msgTj']),
+        
         ...mapMutations(['cancelChooseList']),
        tj(){
            if(!this.dateValue){
@@ -74,27 +79,24 @@ export default {
                     
                     },
                     onConfirm () {    //确定的回调
-                        _this.msgTj()
-                        console.log(_this.tjProductList)
+                        console.log(_this.msgTj)
                         _this.$axios.get(_this.url+'preorderKaController.do?saveKaddcx',{         
                                 params:{
-                                    // userName:userName,
-                                    // passWord:passWord,
-                                    // customerCode :kaObj.customerCode,
-                                    // storescode:kaObj.storescode,
-                                    userName:"20090083",
-                                    passWord:"123456",
-                                    customerCode:"20090083",
-                                    storescode:"01",
-                                    products:JSON.stringify(_this.tjProductList) ,  //产品
+                                    userName:localStorage.userName,
+                                    passWord:localStorage.passWord,
+                                    customerCode :_this.chooseStoreObj.customerCode,
+                                    storescode:_this.chooseStoreObj.storescode,
+                                    // userName:"20090083",
+                                    // passWord:"123456",
+                                    // customerCode:"20090083",
+                                    // storescode:"01",
+                                    products:JSON.stringify(_this.msgTj) ,  //产品
                                     dbillDate:_this.dateValue,  //日期
                                     vnote:_this.textValue     //备注
                                 }
-                            }).then(res=>{
+                            }).then(res=>{                 
                                 console.log(res)
                                 if(res.data.success == true){
-                                    _this.cancelChooseList()      //删除信息
-                                    _this.textValue =""
                                     _this.$vux.toast.show({
                                         time:'1500',
                                         type:'success',
@@ -102,6 +104,8 @@ export default {
                                     })
                                     setTimeout(() => {
                                         _this.$router.push({path:"/"})
+                                        _this.cancelChooseList()      //删除信息
+                                        _this.textValue =""
                                     }, 1500);
                                     
                                 }else{
@@ -124,27 +128,6 @@ export default {
        }
 
     },
-    computed:{
-        ...mapState(['tjProductList'])
-    },
-    // created(){
-    //     let dayN = new Date()  //创建日期对象
-    //     let year = dayN.getFullYear()
-    //     let mon = dayN.getMonth()
-    //     if(mon+1 < 10){
-    //         mon = '0' + (mon+1)
-    //     }else{
-    //         mon = mon+1
-    //     }
-    //     let day = dayN.getDate()
-    //     if(day < 10){
-    //         day = '0' + day
-    //     }
-    //     let Tday = year + '-' + mon + '-' + day
-    //     this.dateValue = Tday
-    //     console.log(this.dateValue)
-    // }
-    
 }
 </script>
 
@@ -153,12 +136,12 @@ export default {
         margin-bottom: 10%;
     }
     .tj{
-        border: 1px solid #ccc;
+ 
         width: 100%;
         position: fixed;
         left: 0;
-        bottom: 50px;
-        height: 6.1%;
+        bottom: 0;
+        height:auto;
         background: #CDC8B1;
     }
     .tj >>> .weui-btn{

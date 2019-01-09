@@ -1,14 +1,9 @@
 export default ({
 
-    /**获取选中的门店数组 */
-    chooseStoreList(state, arr) {
-        state.chooseStoreList = arr
-    },
-
-
-    //初始化得到的产品数组集合用于搜索
-    getChooseList(state) {
-        state.getChooseList = []
+    /**获取选中的门店id,用于获取产品列表 */
+    chooseStoreObj(state, storeObj) {
+        console.log(storeObj)
+        state.chooseStoreObj = storeObj
     },
 
     //从多选选中的产品数组集合
@@ -21,62 +16,166 @@ export default ({
         state.headerRight = msg
     },
 
-    // 添加选中产品 --输入产品名称的条件下  --------------------------------------单个选中的已经取消逻辑
-    // setChooseList(state, chooseItemObj) {
-    //     if (state.getChooseList.length) {
-    //         state.isHave = false //每次都清空
-    //         state.isHaveArr = [] //每次都清空
-    //         let flag = false
-    //         for (let i in state.getChooseList) {
-    //             if (state.getChooseList[i].id == chooseItemObj.id) { //是否有重复的
-    //                 let obj = {
-    //                     name: state.getChooseList[i].title
-    //                 }
-    //                 state.isHaveArr.push(obj)
-    //                 flag = true
-    //                 state.isHave = true
-    //             } else {
-    //                 if (i == state.getChooseList.length - 1 && !flag) {
-    //                     state.getChooseList.push(chooseItemObj)
-    //                     console.log(state.getChooseList)
-    //                 }
-    //             }
-    //         }
-    //     } else {
-    //         state.getChooseList.push(chooseItemObj)
-    //         console.log(state.getChooseList)
-    //     }
+    //根据跳转页面的不同，控制导航栏中部内容
+    isHeaderCenterShow(state, msg) {
+        state.isHeaderCenterShow = msg
+    },
 
-    // },
-
-    //扫码的情况下和多选情况下 --添加产品
-    scanChooseList(state, chooseItemObj) {
+    //永远不变的数组(箱和袋的并集)
+    noChangeList(state, chooseItemArr) {
         state.isHave = false //每次都清空
         state.isHaveArr = [] //每次都清空
-        if (state.getChooseList.length) {
-            for (let j in chooseItemObj) {
+        if (state.noChangeList.length) {
+            for (let j in chooseItemArr) {
                 let flag = false
-                for (let i in state.getChooseList) {
-                    if (state.getChooseList[i].id == chooseItemObj[j].id) {
+                for (let i in state.noChangeList) {
+                    if (state.noChangeList[i].id == chooseItemArr[j].productSapId) {
                         let obj = {
-                            name: state.getChooseList[i].title
+                            name: state.noChangeList[i].title
                         }
                         state.isHave = true
                         flag = true
                         state.isHaveArr.push(obj)
                     } else {
-                        if (i == state.getChooseList.length - 1 && !flag) {
-                            state.getChooseList.push(chooseItemObj[j])
+                        if (i == state.noChangeList.length - 1 && !flag) {
+                            let obj = {
+                                title: chooseItemArr[j].itemdesc, //产品名称
+                                id: chooseItemArr[j].productSapId, //产品id
+                                spec: chooseItemArr[j].itemspec, //产品吗描述
+                                num: 0, //新增的数量字段
+                            }
+                            state.noChangeList.push(obj)
+                            console.log(state.noChangeList)
+                        }
+                    }
+                }
+            }
+        } else {
+            let item = []
+            for (let i in chooseItemArr) { //处理请求到的数据
+                let obj = {
+                    title: chooseItemArr[i].itemdesc, //产品名称
+                    id: chooseItemArr[i].productSapId, //产品id
+                    spec: chooseItemArr[i].itemspec, //产品吗描述
+                    num: 0, //新增的数量字段
+                }
+                item.push(obj)
+            }
+            state.noChangeList = item
+        }
+    },
+
+    //扫码的情况下和多选情况下 --添加产品(箱)
+    scanChooseListBox(state, chooseItemArr) {
+        if (state.noChangeList.length) {
+            for (let j in chooseItemArr) {
+                let flag = false
+                for (let i in state.noChangeList) {
+                    if (state.noChangeList[i].id == chooseItemArr[j].productSapId) {
+                        flag = true
+                    } else {
+                        if (i == state.noChangeList.length - 1 && !flag) {
+                            let obj = {
+                                title: chooseItemArr[j].itemdesc, //产品名称
+                                id: chooseItemArr[j].productSapId, //产品id
+                                spec: chooseItemArr[j].itemspec, //产品吗描述
+                                num: 0, //新增的数量字段
+                            }
+                            state.getChooseList.push(obj) //----------箱
                             console.log(state.getChooseList)
                         }
                     }
                 }
             }
         } else {
-            state.getChooseList = chooseItemObj
-            console.log(state.getChooseList)
+            let item = []
+            for (let i in chooseItemArr) { //处理请求到的数据
+                let obj = {
+                    title: chooseItemArr[i].itemdesc, //产品名称
+                    id: chooseItemArr[i].productSapId, //产品id
+                    spec: chooseItemArr[i].itemspec, //产品吗描述
+                    num: 0, //新增的数量字段
+                }
+                item.push(obj)
+            }
+            state.getChooseList = item
+        }
+    },
+    //扫码的情况下和多选情况下 --添加产品(袋)
+    scanChooseListBag(state, chooseItemArr) {
+        if (state.noChangeList.length) {
+            for (let m in chooseItemArr) {
+                let flag = false
+                for (let n in state.noChangeList) {
+                    if (state.noChangeList[n].id == chooseItemArr[m].productSapId) {
+                        flag = true
+                    } else {
+                        if (n == state.noChangeList.length - 1 && !flag) {
+                            let obj = {
+                                title: chooseItemArr[m].itemdesc, //产品名称
+                                id: chooseItemArr[m].productSapId, //产品id
+                                spec: chooseItemArr[m].itemspec, //产品吗描述
+                                num: 0, //新增的数量字段
+                            }
+                            state.getBagList.push(obj) //----------袋
+                            console.log(state.getBagList)
+                        }
+                    }
+                }
+            }
+        } else {
+            let item = []
+            for (let i in chooseItemArr) { //处理请求到的数据
+                let obj = {
+                    title: chooseItemArr[i].itemdesc, //产品名称
+                    id: chooseItemArr[i].productSapId, //产品id
+                    spec: chooseItemArr[i].itemspec, //产品吗描述
+                    num: 0, //新增的数量字段
+                }
+                item.push(obj)
+            }
+            state.getBagList = item
         }
 
+    },
+
+    //监听产品数量的变化并操作(袋)
+    productBagNum(state, obj) {
+
+        for (let k in state.getBagList) {
+            if (state.getBagList[k].id == obj.id) {
+                if (obj.num != 0) {
+                    state.getBagList[k].num = obj.num
+                    for (let j in state.getChooseList) {
+                        if (state.getBagList[k].id == state.getChooseList[j].id) {
+                            state.getChooseList.splice(j, 1)
+                        }
+                    }
+                } else if (obj.num !== "" && obj.num == 0) {
+                    state.getChooseList.push(state.getBagList[k])
+                }
+            }
+        }
+    },
+
+    //监听产品数量的变化并操作(箱)
+    productBoxNum(state, obj) {
+
+        for (let m in state.getChooseList) {
+            if (state.getChooseList[m].id == obj.id) {
+                if (obj.num != 0) {
+                    state.getChooseList[m].num = obj.num
+                    for (let n in state.getBagList) {
+                        if (state.getChooseList[m].id == state.getBagList[n].id) {
+                            state.getBagList.splice(n, 1)
+                        }
+                    }
+                } else if (obj.num !== "" && obj.num == 0) {
+                    state.getBagList.push(state.getChooseList[m])
+                }
+            }
+
+        }
     },
 
     //点击搜索框右侧取消按钮时，清空选中的集合里的数据
@@ -89,22 +188,41 @@ export default ({
         state.isClick = msg
     },
 
-    //删除选中产品
-    changeItem(state, itemId) {
-        for (let i in state.getChooseList) { //删除数据数组的信息
+    //删除选中产品----3个数组全部删除
+    deletBoxItems(state, itemId) {
+        for (let i in state.getChooseList) { //删除数据数组的信息----箱
             if (state.getChooseList[i].id == itemId) {
                 state.getChooseList.splice(i, 1)
             }
         }
+        for (let m in state.getBagList) { //删除数据数组的信息----袋
+            if (state.getBagList[m].id == itemId) {
+                state.getBagList.splice(m, 1)
+            }
+        }
+
+        for (let n in state.noChangeList) { //删除数据数组的信息----noChangeList(箱和袋的并集)
+            if (state.noChangeList[n].id == itemId) {
+                state.noChangeList.splice(n, 1)
+            }
+        }
     },
 
-    //获取产品数量
-    productNum(state, obj) {
-        for (let i in state.getChooseList) {
-            if (state.getChooseList[i].id == obj.id) {
-                state.getChooseList[i].num = obj.num
-                console.log(state.getChooseList)
-                break
+    // 删除选中的产品 ----袋
+    deletBagItem(state, itemId) {
+        for (let i in state.getChooseList) { //删除数据数组的信息----箱
+            if (state.getChooseList[i].id == itemId) {
+                state.getChooseList.splice(i, 1)
+            }
+        }
+        for (let m in state.getBagList) { //删除数据数组的信息----袋
+            if (state.getBagList[m].id == itemId) {
+                state.getBagList.splice(m, 1)
+            }
+        }
+        for (let n in state.noChangeList) { //删除数据数组的信息----noChangeList(箱和袋的并集)
+            if (state.noChangeList[n].id == itemId) {
+                state.noChangeList.splice(n, 1)
             }
         }
     },
@@ -112,12 +230,26 @@ export default ({
     //去结算
     toClose(state) {
         state.productList = []
-        dataArr(state)
+        boxArr(state);
+        bagArr(state)
     },
 
     //提交成功后删除getChooseList中的数据
     cancelChooseList(state) {
-        state.getChooseList = []
+        state.getChooseList = [] //箱中的数据
+        state.getBagList = [] //袋中的数据
+        state.noChangeList = [] //永远不变的数组
+        state.productList = [] //产品订单数据
+    },
+
+    //删除getBagList中的数据
+    cancelGetBagList(state) {
+        state.getBagList = []
+    },
+
+    //删除箱袋的并集
+    cancelNoChangeList(state) {
+        state.noChangeList = []
     },
 
     //获取单个订单中的信息和产品并组合
@@ -183,7 +315,7 @@ export default ({
     }
 })
 
-function dataArr(state) { //去结算 -- 数据数组
+function boxArr(state) { //去结算 -- 箱
     let flag = false
 
     if (state.getChooseList.length) {
@@ -204,7 +336,7 @@ function dataArr(state) { //去结算 -- 数据数组
                     obj.label = "产品规格";
                     obj.value = state.getChooseList[m].spec;
                     obj2.label = "产品数量";
-                    obj2.value = "x" + state.getChooseList[m].num;
+                    obj2.value = state.getChooseList[m].num + "箱";
                     obj3.id = state.getChooseList[m].id
                     obj3.titC = state.getChooseList[m].title
                     arr.push(obj3)
@@ -224,7 +356,57 @@ function dataArr(state) { //去结算 -- 数据数组
                     break
                 }
             }
-            return dataArr(state)
+            return boxArr(state)
+        }
+    } else {
+        state.isHaveProduct = false
+
+    }
+
+}
+
+function bagArr(state) { //去结算 -- 袋
+    let flag = false
+
+    if (state.getBagList.length || state.getChooseList.length) {
+        state.isHaveProduct = true
+        for (let i in state.getBagList) {
+            if (state.getBagList[i].num == 0) {
+                flag = true
+                break
+            }
+        }
+        if (!flag) {
+            if (state.getBagList.length) {
+                for (let m in state.getBagList) {
+                    let arr = [];
+                    let obj = {};
+                    let obj2 = {};
+                    let obj3 = {};
+                    obj.label = "产品规格";
+                    obj.value = state.getBagList[m].spec;
+                    obj2.label = "产品数量";
+                    obj2.value = state.getBagList[m].num + "袋";
+                    obj3.id = state.getBagList[m].id
+                    obj3.titC = state.getBagList[m].title
+                    arr.push(obj3)
+                    arr.push(obj);
+                    arr.push(obj2);
+                    // state.getChooseList[m] = arr;
+                    state.productList.push(arr)
+                }
+                console.log(state.productList)
+            }
+            return
+        } else {
+            for (let j in state.getBagList) {
+                if (state.getBagList[j].num == 0) {
+                    state.getBagList.splice(j, 1)
+                    state.getBagList = state.getBagList
+                    break
+                }
+            }
+            return bagArr(state)
         }
     } else {
         state.isHaveProduct = false

@@ -1,6 +1,6 @@
 <template>
-    <div class="foot">
-        <tabbar style="position:fixed;" v-model="selected" v-show="show">
+    <div class="foot" v-show="isHeaderFooterShow">
+        <tabbar style="position:fixed;" v-model="selected">
             <tabbar-item >
                 <img slot="icon" src="./../../assets/image/enter.png">
                 <img slot="icon-active" src="./../../assets/image/enter_active.png">
@@ -18,6 +18,7 @@
 
 <script>
 import { Tabbar, TabbarItem } from 'vux'
+import {mapState} from 'vuex'
 export default {
     name:"foot",
     components:{
@@ -27,8 +28,10 @@ export default {
     data(){
         return{
             selected:0,
-            show:true
         }
+    },
+    computed:{
+        ...mapState(['isHeaderFooterShow'])
     },
     watch:{
         selected(val,oldVal){
@@ -37,7 +40,15 @@ export default {
             }else if(val == 1){
                 this.$router.push('/search')
             }
-        }
+        },
+        '$route' (to,from){
+            if(to.path == "/"){
+                this.selected =0
+            }else if(to.path == "/search"){
+                this.selected =1
+            }
+			
+		 }
     },
     mounted(){
         //来判断show的值，从而实现页面的更改
@@ -45,7 +56,7 @@ export default {
         _this.bus.$on('change',function(msg){
         _this.show=msg;
         })
-    }
+    },
 }
 </script>
 

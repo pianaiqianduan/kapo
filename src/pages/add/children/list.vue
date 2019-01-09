@@ -2,20 +2,20 @@
     <div class="list">
         <div class="content">
             <div>
-                <divider >订单列表</divider>
+                <divider >订单详情</divider>
                 <form-preview v-for="(item,index) in this.productList" :key="index" header-label="产品名称" 
                 :header-value="item[0].titC" :body-items="item" style="margin-top:5%"></form-preview>
             </div>
         </div>
         <divider style="margin-top:5%">信息补充</divider>
-        <infor></infor>
+        <infor :numBox="this.allNum" :numBag="this.allBagNum"></infor>
     </div>
 </template>
 
 <script>
 import { FormPreview,Divider } from 'vux'
 import { Cell, Group, Selector} from 'vux'
-import {mapState} from 'vuex'
+import {mapState,mapGetters} from 'vuex'
 
 import information from './information'
 export default {
@@ -40,6 +40,7 @@ export default {
 
     },
     computed:{
+        ...mapGetters(['allNum','allBagNum']),
         ...mapState(['productList'])
     },
 }

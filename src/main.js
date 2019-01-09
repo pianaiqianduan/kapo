@@ -22,19 +22,21 @@ Vue.use(ToastPlugin)
 
 //添加请求拦截器
 axios.interceptors.request.use((config) => { 
-    Vue.$vux.loading.show({ //显示加载动画
+    Vue.$vux.loading.show({ //请求之前设置加载动画
         text: 'Loading'
     })
     return config;
 }, (err) => {
+    Vue.$vux.loading.hide() //请求错误并隐藏加载动画
     return Promise.reject(err)
 })
 
 // 添加响应拦截器
 axios.interceptors.response.use(function(response) {
-    Vue.$vux.loading.hide() //隐藏加载动画
+    Vue.$vux.loading.hide() //响应数据并隐藏加载动画
     return response;
-}, function(error) {
+}, function(error) { //响应错误也要隐藏加载动画
+    Vue.$vux.loading.hide()
     return Promise.reject(error);
 });
 
@@ -46,8 +48,9 @@ FastClick.attach(document.body)
 
 //增加原型链,实例也能调用
 Vue.prototype.$axios = axios
-    // Vue.prototype.url = '/api'
-Vue.prototype.url = 'http://222.88.22.69:8080/synear/' //46测试服务器
+    // Vue.prototype.url = '/api/synear/'
+    // Vue.prototype.url = 'http://222.88.22.69:8080/synear/' //46测试服务器
+Vue.prototype.url = 'http://192.168.16.147:8080/synear/' //张闯本地测试服务器
     // Vue.prototype.url = '/'
 Vue.prototype.bus = new Vue();
 

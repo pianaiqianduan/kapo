@@ -1,24 +1,24 @@
 <template>
     <div class="pannel">
-        <swipeout  v-for="(item,index) of this.getChooseList" :key="index">
-            <swipeout-item @on-close="handleClose" @on-open="handleOpen" transition-mode="follow" id="item.id">
+        <swipeout v-for="list of this.getBagList" :key="list.id">
+            <swipeout-item @on-close="handleClose" @on-open="handleOpen" transition-mode="follow" id="list.id">
                 <div slot="right-menu">
                     <swipeout-button @click.native="clickFav" type="primary">取消</swipeout-button>
-                    <swipeout-button @click.native="clickDel(item.id)" type="warn">删除</swipeout-button>
+                    <swipeout-button @click.native="clickDel(list.id)" type="warn">删除</swipeout-button>
                 </div>
-                <div slot="content" key="hg">
+                <div slot="content" key="apd">
                     <group class="content">
                          <div class="search">
                                 <span class="left">产品名称:</span>
-                                <span style="width:100%">{{item.title}}</span>
+                                <span style="width:100%">{{list.title}}</span>
                             </div>
                             <div class="size">
                                 <span class="left">产品规格:</span>
-                                <span class="msg">{{item.spec}}</span> 
+                                <span class="msg">{{list.spec}}</span> 
                             </div>
                             <div class="num">
-                                <span class="left">数量(箱):</span>
-                                <x-number :min="0" v-model="item.num" @on-change="numChange(item.id,item.num)" fillable></x-number>                         
+                                <span class="left">数量(袋):</span>
+                                <x-number :min="0" v-model="list.num" @on-change="numChange(list.id,list.num)" fillable></x-number>                         
                             </div>
                     </group>
                 </div>
@@ -35,7 +35,7 @@ import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 import { mapMutations,mapState } from 'vuex'
 
 export default {
-    name:"pannel",
+    // props:['list'],
     components:{
         Group,
         Search,
@@ -53,21 +53,20 @@ export default {
         }
     },
     computed:{
-        ...mapState(['getChooseList'])
+        ...mapState(['getBagList'])
     },
     methods:{
-        ...mapMutations(['deletBoxItems','productBoxNum']),
+        ...mapMutations(['deletBagItem','productBagNum']),
         numChange(id,itemNum){      //点击产品数量时触发
            let obj = {
                id:id,
                num:itemNum
            } 
-           this.productBoxNum(obj)
+           this.productBagNum(obj)
         },
         consoleIndex(){
             console.log(this.demo01)
         },
-
         handleClose(){    //菜单关闭时触发
            
         },
@@ -86,7 +85,7 @@ export default {
                 
                 },
                 onConfirm () {    //确定的回调
-                    _this.deletBoxItems(id)
+                    _this.deletBagItem(id)
                 }
             })
         },

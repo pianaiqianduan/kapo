@@ -1,5 +1,9 @@
 export default ({
-    getChooseList: [], //产品组包括id,规格,数量,产品名称
+    getChooseList: [], //选中的产品组包括id,规格,数量,产品名称------------箱
+
+    getBagList: [], //选中的产品组包括id,规格，数量,产品名称 -----------------袋
+
+    noChangeList: [], //永远不会变化的数组（是getChooseList和getBagList的并集）
 
     isHave: false, //是否有重复的
 
@@ -9,7 +13,7 @@ export default ({
 
     productList: [], //产品订单数据,渲染用
 
-    tjProductList: [], //总提交需要的产品组信息
+    // tjProductList: [], //总提交需要的产品组信息
 
     orderList: [], //单个订单的产品数组
 
@@ -19,12 +23,13 @@ export default ({
 
     checkedArr: [], //从多选中选中的集合
 
-    headerRight: '退出登录', //头部右侧导航到底显示什么内容----默认显示“退出登录”
+    headerRight: '门店选择', //头部右侧导航到底显示什么内容----默认显示“门店选择”
 
     isClick: false, //当头部右侧的内容为‘确定’时,判断用户是否点击了,默认没有点击
 
     isHeaderFooterShow: true, //头部导航和底部导航是否显示
 
-    chooseStoreList: [] //选中的门店个数
+    chooseStoreObj: {}, //选中的门店(title,key,customerCode,storescod)
 
+    isHeaderCenterShow: false, //头部导航中间部分是否显示
 })

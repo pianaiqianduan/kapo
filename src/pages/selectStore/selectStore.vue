@@ -1,20 +1,26 @@
 <template>
-    <div>
+    <div class="store">
         <div class="selectStore">
-            <checklist :title="title"  required :options="storeList" v-model="selectList" 
-            @on-change="change"  ref="demoObject"></checklist>
+            <divider style="margin-bottom:15%">门店选择</divider>
+            <search @on-result-click="resultClick" @on-change="getResult"  v-model="value" top="46px"
+                @on-focus="onFocus" position="absolute" :results="results"
+                auto-scroll-to-top placeholder="门店名称" >
+                    <!-- <radio  :options="results" :selected-label-style="{color: '#09BB07'}" v-model="selectList" @on-change="change"></radio> -->
+            </search>
         </div>
+        <divider>选择结果</divider>
+        <div style="margin-top:15%">
+            <group label-width="5em" >
+                <cell title="所选门店:" value-align="left">
+                    <div>
+                        <span style="color: green">{{storeName}}</span>
+                    </div>
+                </cell>
+            </group>
+        </div>
+        
         <div class="sure">
-            <Flexbox>
-                <FlexboxItem>
-                    <p style="padding-left:8%">选中门店个数:
-                        <span style="color:rgb(151,5,5)">{{this.selectList.length}}</span>
-                    </p>
-                </FlexboxItem>
-                <FlexboxItem>
-                    <x-button type="primary" style="margin-right:0" @click.native="sure">去下单</x-button>
-                </FlexboxItem>
-            </Flexbox>
+            <x-button type="primary" style="margin-right:0" @click.native="sure">去下单</x-button>
         </div>
     </div>
     
@@ -23,104 +29,148 @@
 
 <script>
 
-import { Flexbox, FlexboxItem, Checklist, XButton} from 'vux'
-import {mapMutations} from 'vuex'
+import { Group, XButton,Search, Divider, Cell} from 'vux'
+import {mapMutations } from 'vuex'
+import { watch } from 'fs';
+
 export default {
     name:'selectStore',
     components:{                         //注册组件
-        Checklist,
+        Group,
         XButton,
-        Flexbox,
-        FlexboxItem
+        Search,
+        Divider,
+        Cell
     },
     data(){
         return{
-            title:"请选择要下单的门店",
-            storeList:[
-                {key:"01",value:"郑州思念食品"},
-                {key:"02",value:"郑州思念食品经销商下单门店2"},
-                {key:"03",value:"郑州思念食品经销商下单门店3"},
-                {key:"04",value:"郑州思念食品经销商下单门店4"},
-                {key:"05",value:"郑州思念食品经销商下单门店5"},
-                {key:"06",value:"郑州思念食品经销商下单门店6"},
-                {key:"07",value:"郑州思念食品经销商下单门店7"},
-                {key:"08",value:"郑州思念食品经销商下单门店8"},
-                {key:"09",value:"郑州思念食品经销商下单门店9"},
-                {key:"10",value:"郑州思念食品经销商下单门店10"},
-                {key:"11",value:"郑州思念食品经销商下单门店11"},
-                {key:"12",value:"郑州思念食品经销商下单门店12"},
-                {key:"13",value:"郑州思念食品经销商下单门店13"}
-            ],
-            selectList:[],   //选中的key数组集合
+            results:[],
+            value:"",
+            storeName:"",  //选中的门店名称
+            storeList:[],
         }
     },
+    watch:{
+        value(val){
+            if(!val){
+                this.results = this.storeList
+            }
+        }
+    },
+    created(){
+        let storeList = JSON.parse(sessionStorage.kaStoreList)
+        let storeItems = []
+        for(let k in storeList){
+            let storeItem={
+                key: storeList[k].customerId,
+                title:storeList[k].customerName,
+                customerCode:storeList[k].customerCode,
+                storescode:storeList[k].storescode
+            }
+            storeItems.push(storeItem)
+        }
+        this.storeList = storeItems
+        console.log(storeItems)
+    },
     methods:{
-        ...mapMutations(['chooseStoreList']),
+        ...mapMutations(['chooseStoreObj']),
 
-        change(val){
-            if(val.length){
-                this.selectList = val
-                this.chooseStoreList(this.selectList)          
+        getResult(val){         //输入文字变化触发
+            this.results = val? getResult(this.value,this.storeList):[];
+        },
+        onFocus(){             //获取焦点时触发
+            if(!this.value){
+                this.results = focusGetResult(this.storeList);
             }
             
         },
-        sure(){
-            if(this.selectList.length){
-                console.log(this.$refs.demoObject.getFullValue())
-                let getFullArr = this.$refs.demoObject.getFullValue()
-                let msg=''
-                for(let k in getFullArr){
-                    if( msg == "" ){
-                        msg+='<p style="text-align:left">'+getFullArr[k].label+'</p>'
-                    }else{
-                        msg +='<p style="text-align:left">'+getFullArr[k].label+'</p>'
-                    }
-                }
-                let _this = this    //改变this指向
-                this.$vux.confirm.show({
-                    title:"请确认您选中的门店名称是否正确",
-                    content:msg,
-                    onCancel () {  //取消
-            
-                    },
-                    onConfirm () {  //确定
-                        sessionStorage.ischoose="choose"
-                        _this.$router.push({path:"/"})
-                    }
-                })
+        resultClick(val){     //点击选择条目时触发、
+            if(val.title != "没有匹配结果,请检查门店名称是否正确"){
+                this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
+                this.storeName = val.title 
+            }
+                         
+        },
+        sure(){           //点击去下单按钮时触发
+            if(this.storeName){
+                
+                sessionStorage.ischoose="choose"
+                this.$router.push({path:"/"})
             }else{
                 this.$vux.alert.show({
                     title: '注意',
                     content: '请选中门店后再下单',
                 })
+            }
+        },
+        
+    },
+   
+    
+}
+function getResult(val,storeList){       //模糊查询方法
+    let productList = storeList
+    let re = []
+    let flag = false
+    for(let i in productList){
 
+        if(productList[i].title.search(val) != -1){
+            flag = true
+                re.push({
+                title:productList[i].title,    
+                key:productList[i].key, 
+                customerCode: productList[i].customerCode,
+                storescode: productList[i].storescode
+            })
+        }else{
+            if(!flag && i ==productList.length-1){
+                    re.push({
+                    title:"没有匹配结果,请检查门店名称是否正确"    
+                })
             }
         }
-    },
+    }
+            
+    return re
+        
+}
+function focusGetResult(storeList){      //模糊查询方法
+
+    let productList = storeList
+    let re = []
+ 
+    productList.map(function(item){
+        
+        re.push({
+            title:item.title,    
+            key:item.key,  
+            customerCode: item.customerCode,
+            storescode: item.storescode
+        })
+        
+    })
+    
+    return re
 }
 </script>
 
 
 <style scoped>
     .selectStore{
-        padding-top: 5%;
-        padding-bottom: 20%;
+        padding-top: 25%;
+        padding-bottom: 25%;
     }
-    .selectStore >>> .weui-cells__title{
-    margin-top: 1.77em;
-    margin-bottom: .5em;
-    color: rgb(151,5,5);
-    font-size: 18px;
-    text-align: center;
-    font-weight: bolder
+
+    .selectStore >>> .vux-search_show{
+        height: 100%;
     }
-     .sure{
-        border: 1px solid #ccc;
+
+    .sure{
         width: 100%;
         position: fixed;
         left: 0;
         bottom: 0;
-        background: #CDC8B1;
     }
+
 </style>
 

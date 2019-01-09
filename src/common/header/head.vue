@@ -1,7 +1,7 @@
 <template>
     <div class="head" style="position:fixed;left:0;right:0;top:0;z-index:999">
         <x-header :left-options="headerLeftShow">
-            <marquee scrollamount="1">{{msg}}</marquee>
+            <marquee scrollamount="1" v-if="isHeaderCenterShow">{{this.chooseStoreObj.title}}</marquee>
             <a slot="right" @click="out">{{headerRight}}</a>
         </x-header>
     </div>
@@ -24,7 +24,7 @@ export default {
     data(){
         return{
             // msg:customerName
-            msg:"苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店",
+            // msg:"苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店苏果门店",
         }
     },
 
@@ -43,24 +43,43 @@ export default {
         },
         isHaveArr(){   //重复的产品数组
             return this.$store.state.isHaveArr
+        },
+        isHeaderCenterShow(){    //导航栏中间的部分是否显示
+            return this.$store.state.isHeaderCenterShow
+        },
+        chooseStoreObj(){     //选中的门店(title,key,customerCode,storescode)
+            return this.$store.state.chooseStoreObj
         }
-
     },
     methods:{
-        ...mapMutations(['scanChooseList']),
+        ...mapMutations(['scanChooseListBox','scanChooseListBag','noChangeList','cancelChooseList','cancelGetBagList','cancelNoChangeList']),
         out(){
-            if(this.headerRight == '退出登录'){    //头部右侧的内容为‘退出登录’
+            if(this.headerRight == '门店选择'){    //头部右侧的内容为‘退出登录’
                 const _this = this   //改变this指向
                 this.$vux.confirm.show({
                     title:"注意",
-                    content:"您确定要退出吗？",
+                    content:"您确定要重新选择门店吗？",
+                    onConfirm () {    //点击确定的回调--清空数组
+                        _this.cancelChooseList()
+                        _this.cancelGetBagList()
+                        _this.cancelNoChangeList()
+                        _this.$router.push({path:"/selectStore"})
+                    }
+                })
+            }
+            else if(this.headerRight == '退出登录'){
+                const _this = this   //改变this指向
+                this.$vux.confirm.show({
+                    title:"注意",
+                    content:"您确定要退出登录吗？",
                     onConfirm () {    //点击确定的回调
                         sessionStorage.clear();  //清空sessionStorage中的内容
                         localStorage.clear()     //清空localStorage中的内容
                         window.location.href = '../login.html' //跳转到登录页面
                     }
                 })
-            }else if(this.headerRight == '确定'){    //头部右侧的内容为‘确定’
+            }
+            else if(this.headerRight == '确定'){    //头部右侧的内容为‘确定’
                 if(this.checkedArr.length){      //多选有选中的值
                         this.$store.commit('isClick',true)  //调用Mutation中的isClick方法修改State中isClick的值
                         let productListObj = JSON.parse(sessionStorage.productList)  //获取到产品数组
@@ -73,7 +92,6 @@ export default {
                                 
                                 }
                             }
-                            
                             if(j == productListObj.length-1 ){
                                 // let ids = ['0020011926','0020011926','0020011926','0020011926']
                                 for(let j in sapIds){   //循环sapIds中产品id,将数组转化成字符串
@@ -90,40 +108,26 @@ export default {
                         }
                         this.$axios.get(this.url+'preorderKaController.do?checkProducts',{      //调用接口获取产品信息   
                         params:{
-                            userName:"20090083",
-                            passWord:"123456",
-                            customerCode:"20090083",
-                            storescode:"01",
-                            // userName:userName,
-                            // passWord:passWord,
-                            // customerCode:kaObj.customerCode,
-                            // storescode:kaObj.storescode,
+                            userName:localStorage.userName,
+                            passWord:localStorage.passWord,
+                            customerCode:this.chooseStoreObj.customerCode,
+                            storescode:this.chooseStoreObj.storescode,
                             sapIds:opt
                         }
                         }).then(res=>{
                             console.log(res)
                             if(res.data.success == true){ //请求成功
-                             this.$store.commit('changeHeaderRight','退出登录')
-                                let item = []  
-                                for(let i in res.data.products){  //处理请求到的数据
-                                    let obj ={
-                                        title:res.data.products[i].itemdesc, //产品名称
-                                        id:res.data.products[i].productSapId, //产品id
-                                        spec:res.data.products[i].itemspec,  //产品吗描述
-                                        num:0,  //新增的数量字段
-                                    }
-                                    item.push(obj)
-                                }
-                                if(item.length){  //添加选中的产品的所有信息到getChooseList中
-                                    this.scanChooseList(item) 
-                                }
+                                this.$store.commit('changeHeaderRight','门店选择')
+                                this.scanChooseListBox(res.data.products)
+                                this.scanChooseListBag(res.data.products)
+                                this.noChangeList(res.data.products)
                                 if(this.isHave){  //如果产品已经存在
                                     let strC=''
                                     if(this.isHaveArr.length == 1){   //重复的产品数组只有一个
-                                        strC+=this.isHaveArr[0].name
+                                        strC+='<p style="text-align:left">'+this.isHaveArr[0].name+'</p>'
                                     }else{
                                         for(let j in this.isHaveArr){   //重复的产品数组有多个进行循环
-                                            strC =  this.isHaveArr[j].name+ '</br>'+strC
+                                            strC = '<p style="text-align:left">'+this.isHaveArr[j].name+ '</p>'+strC
                                         }
                                     }
                                     this.$vux.alert.show({    //提示用户有哪些产品已经存在
@@ -139,6 +143,7 @@ export default {
                                     })
                                 }
                             }else{  //获取产品信息失败时
+                            this.$store.commit('changeHeaderRight','门店选择')
                                 this.$vux.alert.show({
                                     title: '注意',
                                     content: res.data.msg,

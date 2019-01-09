@@ -58,7 +58,7 @@
 // var passWord = localStorage.passWord
 
 import {Group, Datetime, Selector, Search, Divider, XButton, Flexbox, FlexboxItem, XTable, XInput  } from 'vux'
-import {mapMutations} from 'vuex'
+import {mapMutations,mapState} from 'vuex'
 import MeScroll from 'mescroll.js'
 import 'mescroll.js/mescroll.min.css'
 export default {
@@ -90,6 +90,9 @@ export default {
             Tday:'',
             Numbervalue:''
         }
+    },
+    computed:{
+        ...mapState(['chooseStoreObj'])
     },
     methods:{
         ...mapMutations(['getOrderId','getOrderList']),
@@ -149,12 +152,9 @@ export default {
             params: {
                 page: page.num, //页码
                 rows: page.size, //每页长度
-                // userName:userName,
-                // passWord:passWord,
-                // customerCode:kaObj.customerCode,
-                userName:"20090083",
-                passWord:"123456",
-                customerCode:"20090083",
+                userName:localStorage.userName,
+                passWord:localStorage.passWord,
+                customerCode:this.chooseStoreObj.customerCode,
                 orderNumber:this.Numbervalue,
                 orderDateStart:this.startDate,
                 orderDateEnd:this.endDate,
@@ -183,10 +183,8 @@ export default {
             
             this.$axios.get(this.url+'preorderKaController.do?findKaddcxDetail',{         
                 params:{
-                    // userName:userName,
-                    // passWord:passWord,
-                    userName:"20090083",
-                    passWord:"123456",
+                    userName:localStorage.userName,
+                    passWord:localStorage.passWord,
                     orderId:id
                 }
             }).then(res=>{

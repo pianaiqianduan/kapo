@@ -66,27 +66,41 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
+    next()
+
+})
+router.afterEach(function(to) {
     if (to.path == '/') {
-        store.commit('changeHeaderLeft', true)
+        store.commit('changeHeaderLeft', false)
         store.commit('isHeaderFooterShow', true)
-        next()
+        store.commit('isHeaderCenterShow', true)
+        store.commit('changeHeaderRight', '门店选择') //将头部右侧的‘退出登录’改为‘门店选择’
+
     } else if (to.path == '/list') {
         store.commit('changeHeaderLeft', true)
-        store.commit('isHeaderFooterShow', true)
-        next()
+        store.commit('isHeaderFooterShow', false)
+        store.commit('isHeaderCenterShow', true)
+        store.commit('changeHeaderRight', '') //将头部右侧的内容置空
+
     } else if (to.path == '/search') {
         store.commit('changeHeaderLeft', false)
         store.commit('isHeaderFooterShow', true)
-        next()
+        store.commit('isHeaderCenterShow', true)
+        store.commit('changeHeaderRight', '门店选择') //将头部右侧的‘退出登录’改为‘门店选择’
+
     } else if (to.path == '/detail') {
         store.commit('changeHeaderLeft', true)
-        store.commit('isHeaderFooterShow', true)
-        next()
-    } else if (to.path == '/selectStore') { //头部和底部导航是否显示
+        store.commit('isHeaderFooterShow', false)
+        store.commit('isHeaderCenterShow', true)
+        store.commit('changeHeaderRight', '') //将头部右侧的内容置空
+
+    } else if (to.path == '/selectStore') {
         store.commit('changeHeaderLeft', false) //判断头部左侧的返回按钮是否显示
         store.commit('isHeaderFooterShow', false) //头部导航和底部导航是否显示
-        next()
+        store.commit('isHeaderCenterShow', false) //头部导航中间部分是否显示
+        store.commit('changeHeaderRight', '退出登录') //将头部右侧的‘门店选择’改为‘退出登录’
     }
+
 })
 
 
