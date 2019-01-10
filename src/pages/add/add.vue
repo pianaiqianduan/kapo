@@ -154,7 +154,9 @@ export default {
                                     item.push(obj)
                                 }
                                 if(item.length){
-                                    _this.scanChooseList(item)           //调用mutation的方法
+                                    _this.scanChooseListBox(item)           //调用mutation的方法
+                                    _this.scanChooseListBag(item)
+                                    _this.noChangeList(item)
                                 }
                                 if(_this.isHave){
                                     let strC=''
