@@ -11,13 +11,18 @@
                 <x-button type="primary" style="width:65%;font-size:16px" @click.native="open">打开相机扫描包装袋条码</x-button>
             </div>
             <divider >搜索产品列表</divider>
-            <button-tab v-model="demo01" style="margin-top:10px">
-                <button-tab-item selected>箱</button-tab-item>
-                <button-tab-item>袋</button-tab-item>
-            </button-tab>
+            <div v-if="this.noChangeList">
+                <button-tab v-model="demo01" style="margin-top:10px">
+                    <button-tab-item selected>箱</button-tab-item>
+                    <button-tab-item>袋</button-tab-item>
+                </button-tab>
+                </div>
+            <div v-else class="content">
+                <p style="font-size: 14px;color: gray;text-align:center">暂无产品信息</p>
+            </div>
         
         </div>
-        <div v-if="this.noChangeList">
+        
             <div  v-if="!demo01" >
                 <div class="content" style="margin-top:190px">
                     <pannel></pannel>
@@ -28,10 +33,7 @@
                     <pannelbag ></pannelbag>
                 </div>
             </div>
-        </div>
-        <div v-else class="content">
-            <p style="font-size: 14px;color: gray;text-align:center">暂无产品信息</p>
-        </div>
+        
         
         <close></close>
         
