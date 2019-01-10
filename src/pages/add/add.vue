@@ -17,17 +17,20 @@
             </button-tab>
         
         </div>
-        <div  v-if="!demo01" >
-            <div class="content" style="margin-top:190px">
-                <pannel></pannel>
+        <div v-if="this.noChangeList">
+            <div  v-if="!demo01" >
+                <div class="content" style="margin-top:190px">
+                    <pannel></pannel>
+                </div>
+            </div>
+            <div v-else>
+                <div class="content" style="margin-top:190px">
+                    <pannelbag ></pannelbag>
+                </div>
             </div>
         </div>
-        <div v-else>
-            <div class="content" style="margin-top:190px">
-                <pannelbag ></pannelbag>
-            </div>
-                
-      
+        <div v-else class="content">
+            <p style="font-size: 14px;color: gray;text-align:center">暂无产品信息</p>
         </div>
         
         <close></close>
