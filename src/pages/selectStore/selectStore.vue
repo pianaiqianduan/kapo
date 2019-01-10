@@ -63,7 +63,7 @@ export default {
         for(let k in storeList){
             let storeItem={
                 key: storeList[k].customerId,
-                title:storeList[k].customerName,
+                title:storeList[k].customerName + "门店编码(" + storeList[k].customerCode + ")",
                 customerCode:storeList[k].customerCode,
                 storescode:storeList[k].storescode
             }
@@ -117,7 +117,7 @@ function getResult(val,storeList){       //模糊查询方法
         if(productList[i].title.search(val) != -1){
             flag = true
                 re.push({
-                title:productList[i].title,    
+                title:productList[i].title + "门店编码(" + productList[i].customerCode + ")",    
                 key:productList[i].key, 
                 customerCode: productList[i].customerCode,
                 storescode: productList[i].storescode
@@ -142,7 +142,7 @@ function focusGetResult(storeList){      //模糊查询方法
     productList.map(function(item){
         
         re.push({
-            title:item.title,    
+            title:item.title + "门店编码(" + item.customerCode + ")",    
             key:item.key,  
             customerCode: item.customerCode,
             storescode: item.storescode
