@@ -209,7 +209,7 @@ export default {
     },
     computed:{   //计算属性
         ...mapState(
-            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreObj']
+            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreObj','noChangeList']
         ),
     },
     created(){
