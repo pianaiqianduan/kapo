@@ -258,6 +258,9 @@ export default {
     if(to.path == '/'){
         this.isShow = false;
         this.mescroll == null;
+    }else if(to.path == '/selectStore'){
+        this.isShow = false;
+        this.mescroll == null;
     }
     next()
   }
