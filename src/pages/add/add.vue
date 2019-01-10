@@ -10,13 +10,13 @@
                 <img src="./../../assets/image/saoma.png" alt="" style="width:10%;height:10%">
                 <x-button type="primary" style="width:65%;font-size:16px" @click.native="open">打开相机扫描包装袋条码</x-button>
             </div>
-            <divider >搜索产品列表</divider>
-            <div v-if="this.noChangeList">
+            <divider >搜索产品列表1</divider>
+            <div v-if="this.noChangeList.length">
                 <button-tab v-model="demo01" style="margin-top:10px">
                     <button-tab-item selected>箱</button-tab-item>
                     <button-tab-item>袋</button-tab-item>
                 </button-tab>
-                </div>
+            </div>
             <div v-else class="content">
                 <p style="font-size: 14px;color: gray;text-align:center">暂无产品信息</p>
             </div>
