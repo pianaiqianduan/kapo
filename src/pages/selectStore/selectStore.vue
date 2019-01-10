@@ -9,7 +9,7 @@
             </search>
         </div>
         <divider>选择结果</divider>
-        <div style="margin-top:15%">
+        <div style="margin-top:25%">
             <group label-width="5em" >
                 <cell title="所选门店:" value-align="left">
                     <div>
@@ -157,8 +157,8 @@ function focusGetResult(storeList){      //模糊查询方法
 
 <style scoped>
     .selectStore{
-        padding-top: 25%;
-        padding-bottom: 25%;
+        padding-top: 80px;
+        padding-bottom: 80px;
     }
 
     .selectStore >>> .vux-search_show{
