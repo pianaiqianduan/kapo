@@ -67,7 +67,7 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1']),       //mutation中的方法动态改变state中的数据
+        ...mapMutations(['setChooseList','scanChooseListBox','scanChooseListBag','noChangeList','checkedArr','cancelCheckedArr']),       //mutation中的方法动态改变state中的数据
         getResult(val){  //输入文字变化触发
             this.results = val? getResult(this.value):[]
         },
