@@ -261,6 +261,7 @@ export default {
     }else if(to.path == '/selectStore'){
         this.isShow = false;
         this.mescroll == null;
+        this.dataList = []
     }
     next()
   }
