@@ -15,7 +15,7 @@ export default ({
 
     // tjProductList: [], //总提交需要的产品组信息
 
-    orderList: [], //单个订单的产品数组
+    orderList: [], //查询订单详情时,单个订单的产品数组
 
     headerLeftShow: { showBack: false }, //是否显示头部导航左侧的返回字段
 

@@ -277,18 +277,30 @@ export default ({
         arr3.push(arr2)
 
         let arr4 = []
+
         for (let j in arr[1]) {
             let arr1 = []
-
-            let obj2 = {
-                label: '产品名称',
-                value: arr[1][j].productName
+            let obj2
+            let obj3
+            if (arr[1][j].unit == "piece") { //箱
+                obj2 = {
+                    label: '产品名称',
+                    value: arr[1][j].productName
+                }
+                obj3 = {
+                    label: '产品数量',
+                    value: arr[1][j].amount + "箱"
+                }
+            } else if (arr[1][j].unit == "bag") { //袋
+                obj2 = {
+                    label: '产品名称',
+                    value: arr[1][j].productName
+                }
+                obj3 = {
+                    label: '产品数量',
+                    value: arr[1][j].amount + "袋"
+                }
             }
-            let obj3 = {
-                label: '产品数量',
-                value: 'x' + arr[1][j].amount
-            }
-
 
             arr1.push(obj2)
             arr1.push(obj3)
