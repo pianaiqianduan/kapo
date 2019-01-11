@@ -40,7 +40,16 @@
                               
                                 <td v-if="item.state=='1'">自由</td>
                                 <td v-else>已生成订单</td>
-                                <td>{{item.totalNumber}}</td>
+                                <td v-if="item.totalNumber && item.totalPackageNumber">
+                                    <span style="color:rgb(151,5,5)">{{item.totalNumber}}</span>箱
+                                    <span style="color:rgb(151,5,5)">{{item.totalPackageNumber}}</span>袋       
+                                </td>
+                                <td v-else-if="item.totalNumber && !item.totalPackageNumber">
+                                    <span style="color:rgb(151,5,5)">{{item.totalNumber}}</span>箱
+                                </td>
+                                <td v-else-if="!item.totalNumber && item.totalPackageNumber">
+                                    <span style="color:rgb(151,5,5)">{{item.totalPackageNumber}}</span>袋   
+                                </td>
                             </tr>
                             
                         </tbody>
@@ -249,6 +258,10 @@ export default {
     if(to.path == '/'){
         this.isShow = false;
         this.mescroll == null;
+    }else if(to.path == '/selectStore'){
+        this.isShow = false;
+        this.mescroll == null;
+        this.dataList = []
     }
     next()
   }

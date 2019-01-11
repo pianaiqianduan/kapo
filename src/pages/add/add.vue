@@ -11,24 +11,29 @@
                 <x-button type="primary" style="width:65%;font-size:16px" @click.native="open">打开相机扫描包装袋条码</x-button>
             </div>
             <divider >搜索产品列表</divider>
-            <button-tab v-model="demo01" style="margin-top:10px">
-                <button-tab-item selected>箱</button-tab-item>
-                <button-tab-item>袋</button-tab-item>
-            </button-tab>
+            <div v-if="this.noChangeList.length">
+                <button-tab v-model="demo01" style="margin-top:10px">
+                    <button-tab-item selected>箱</button-tab-item>
+                    <button-tab-item>袋</button-tab-item>
+                </button-tab>
+            </div>
+            <div v-else class="content">
+                <p style="font-size: 14px;color: gray;text-align:center;margin-top:125px">暂无产品信息</p>
+            </div>
         
         </div>
-        <div  v-if="!demo01" >
-            <div class="content" style="margin-top:190px">
-                <pannel></pannel>
+        
+            <div  v-if="!demo01" >
+                <div class="content" style="margin-top:190px">
+                    <pannel></pannel>
+                </div>
             </div>
-        </div>
-        <div v-else>
-            <div class="content" style="margin-top:190px">
-                <pannelbag ></pannelbag>
+            <div v-else>
+                <div class="content" style="margin-top:190px">
+                    <pannelbag ></pannelbag>
+                </div>
             </div>
-                
-      
-        </div>
+        
         
         <close></close>
         
@@ -67,7 +72,7 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['setChooseList','scanChooseList','checkedArr','cancelCheckedArr','tabIndex0','tabIndex1']),       //mutation中的方法动态改变state中的数据
+        ...mapMutations(['setChooseList','scanChooseListBox','scanChooseListBag','noChangeList','checkedArr','cancelCheckedArr']),       //mutation中的方法动态改变state中的数据
         getResult(val){  //输入文字变化触发
             this.results = val? getResult(this.value):[]
         },
@@ -154,7 +159,9 @@ export default {
                                     item.push(obj)
                                 }
                                 if(item.length){
-                                    _this.scanChooseList(item)           //调用mutation的方法
+                                    _this.scanChooseListBox(item)           //调用mutation的方法
+                                    _this.scanChooseListBag(item)
+                                    _this.noChangeList(item)
                                 }
                                 if(_this.isHave){
                                     let strC=''
@@ -204,7 +211,7 @@ export default {
     },
     computed:{   //计算属性
         ...mapState(
-            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreObj']
+            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','noChangeList']
         ),
     },
     created(){
@@ -262,25 +269,7 @@ export default {
             return(()=>{
                 this.showHeight = document.body.clientHeight;
             })()
-        }
-        //获取产品列表
-        this.$axios.get(this.url+'preorderKaController.do?getProductList',{         
-            params:{
-                userName:localStorage.userName,
-                passWord:localStorage.passWord,
-                customerId:this.chooseStoreObj.key
-            }
-        }).then(res=>{
-            console.log(res)
-            if(res.data.rows.length){
-                sessionStorage.productList = JSON.stringify(res.data.rows)
-            }
-        }).catch(e=>{
-            this.$vux.alert.show({
-                title: '注意',
-                content: '服务器出错,请稍后再试',
-            })
-        })     
+        }     
     },
 }
 function getResult(val){

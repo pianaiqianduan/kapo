@@ -9,7 +9,7 @@
             </search>
         </div>
         <divider>选择结果</divider>
-        <div style="margin-top:15%">
+        <div style="margin-top:25%">
             <group label-width="5em" >
                 <cell title="所选门店:" value-align="left">
                     <div>
@@ -32,6 +32,7 @@
 import { Group, XButton,Search, Divider, Cell} from 'vux'
 import {mapMutations } from 'vuex'
 import { watch } from 'fs';
+import { setTimeout } from 'timers';
 
 export default {
     name:'selectStore',
@@ -63,7 +64,7 @@ export default {
         for(let k in storeList){
             let storeItem={
                 key: storeList[k].customerId,
-                title:storeList[k].customerName,
+                title:storeList[k].customerName + "(门店编码" + storeList[k].customerCode + ")",
                 customerCode:storeList[k].customerCode,
                 storescode:storeList[k].storescode
             }
@@ -86,14 +87,31 @@ export default {
         },
         resultClick(val){     //点击选择条目时触发、
             if(val.title != "没有匹配结果,请检查门店名称是否正确"){
-                this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
-                this.storeName = val.title 
+                this.$axios.get(this.url+'preorderKaController.do?getProductList',{    //获取对应门店的产品列表     
+                    params:{
+                        userName:localStorage.userName,
+                        passWord:localStorage.passWord,
+                        customerId:val.key
+                    }
+                }).then(res=>{
+                    this.chooseStoreObj(val)    //调用mutation方法将选中的门店赋值给vuex中的state(title,key,customerCode,storescod)
+                    this.storeName = val.title 
+                    if(res.data.rows.length){
+                        sessionStorage.productList = JSON.stringify(res.data.rows)
+                    }
+                }).catch(e=>{
+                    this.$vux.alert.show({
+                        title: '注意',
+                        content: '服务器出错,请稍后再试',
+                    })
+                }) 
+                
+                
             }
                          
         },
         sure(){           //点击去下单按钮时触发
             if(this.storeName){
-                
                 sessionStorage.ischoose="choose"
                 this.$router.push({path:"/"})
             }else{
@@ -157,8 +175,8 @@ function focusGetResult(storeList){      //模糊查询方法
 
 <style scoped>
     .selectStore{
-        padding-top: 25%;
-        padding-bottom: 25%;
+        padding-top: 80px;
+        padding-bottom: 80px;
     }
 
     .selectStore >>> .vux-search_show{

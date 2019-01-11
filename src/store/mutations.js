@@ -239,7 +239,6 @@ export default ({
         state.getChooseList = [] //箱中的数据
         state.getBagList = [] //袋中的数据
         state.noChangeList = [] //永远不变的数组
-        state.productList = [] //产品订单数据
     },
 
     //删除getBagList中的数据
@@ -257,6 +256,7 @@ export default ({
         let Arr = []
         let arr2 = []
         let arr3 = []
+        let obj6
         let obj = {
             name: '门店名称',
             nameValue: arr[0].customerName
@@ -269,26 +269,54 @@ export default ({
             label: "订单创建日期",
             value: arr[0].orderDate
         }
-
+        if (arr[0].totalNumber && arr[0].totalPackageNumber) { //产品同时有箱和袋
+            obj6 = {
+                label: "订单总数量",
+                value: arr[0].totalNumber + "箱" + arr[0].totalPackageNumber + "袋"
+            }
+        } else if (arr[0].totalNumber && !arr[0].totalPackageNumber) { //只有箱
+            obj6 = {
+                label: "订单总数量",
+                value: arr[0].totalNumber + "箱"
+            }
+        } else if (!arr[0].totalNumber && arr[0].totalPackageNumber) { //只有袋
+            obj6 = {
+                label: "订单总数量",
+                value: arr[0].totalPackageNumber + "袋"
+            }
+        }
         arr2.push(obj)
         arr2.push(obj4)
         arr2.push(obj5)
+        arr2.push(obj6)
 
         arr3.push(arr2)
 
         let arr4 = []
+
         for (let j in arr[1]) {
             let arr1 = []
-
-            let obj2 = {
-                label: '产品名称',
-                value: arr[1][j].productName
+            let obj2
+            let obj3
+            if (arr[1][j].unit == "piece") { //箱
+                obj2 = {
+                    label: '产品名称',
+                    value: arr[1][j].productName
+                }
+                obj3 = {
+                    label: '产品数量',
+                    value: arr[1][j].amount + "箱"
+                }
+            } else if (arr[1][j].unit == "bag") { //袋
+                obj2 = {
+                    label: '产品名称',
+                    value: arr[1][j].productName
+                }
+                obj3 = {
+                    label: '产品数量',
+                    value: arr[1][j].amount + "袋"
+                }
             }
-            let obj3 = {
-                label: '产品数量',
-                value: 'x' + arr[1][j].amount
-            }
-
 
             arr1.push(obj2)
             arr1.push(obj3)
