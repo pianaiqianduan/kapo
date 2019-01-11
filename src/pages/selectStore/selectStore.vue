@@ -86,13 +86,28 @@ export default {
             
         },
         resultClick(val){     //点击选择条目时触发、
-            this.$vux.loading.show({
-                text: 'Loading'
-            })
             if(val.title != "没有匹配结果,请检查门店名称是否正确"){
-                this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
-                this.storeName = val.title 
-                this.$vux.loading.hide()
+                this.$axios.get(this.url+'preorderKaController.do?getProductList',{         
+                    params:{
+                        userName:localStorage.userName,
+                        passWord:localStorage.passWord,
+                        customerId:this.val.key
+                    }
+                }).then(res=>{
+                    console.log(res)
+                    this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
+                    this.storeName = val.title 
+                    if(res.data.rows.length){
+                        sessionStorage.productList = JSON.stringify(res.data.rows)
+                    }
+                }).catch(e=>{
+                    this.$vux.alert.show({
+                        title: '注意',
+                        content: '服务器出错,请稍后再试',
+                    })
+                }) 
+                
+                
             }
                          
         },
