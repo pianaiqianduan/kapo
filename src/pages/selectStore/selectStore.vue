@@ -32,6 +32,7 @@
 import { Group, XButton,Search, Divider, Cell} from 'vux'
 import {mapMutations } from 'vuex'
 import { watch } from 'fs';
+import { setTimeout } from 'timers';
 
 export default {
     name:'selectStore',
@@ -91,7 +92,9 @@ export default {
                 })
                 this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
                 this.storeName = val.title 
-                // this.$vux.loading.hide()
+                setTimeout(()=>{
+                    this.$vux.loading.hide()
+                },500)
             }
                          
         },
