@@ -86,8 +86,12 @@ export default {
         },
         resultClick(val){     //点击选择条目时触发、
             if(val.title != "没有匹配结果,请检查门店名称是否正确"){
+                this.$vux.loading.show({
+                    text: 'Loading'
+                })
                 this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
                 this.storeName = val.title 
+                this.$vux.loading.hide()
             }
                          
         },
