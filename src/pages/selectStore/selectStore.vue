@@ -91,7 +91,7 @@ export default {
                 })
                 this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
                 this.storeName = val.title 
-                this.$vux.loading.hide()
+                // this.$vux.loading.hide()
             }
                          
         },
