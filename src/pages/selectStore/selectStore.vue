@@ -90,11 +90,12 @@ export default {
                 this.$vux.loading.show({
                     text: 'Loading'
                 })
-                this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
-                this.storeName = val.title 
+                
                 setTimeout(()=>{
-                    this.$vux.loading.hide()
+                    this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
+                    this.storeName = val.title 
                 },1000)
+                this.$vux.loading.hide()
             }
                          
         },
