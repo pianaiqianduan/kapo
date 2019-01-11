@@ -94,7 +94,7 @@ export default {
                 this.storeName = val.title 
                 setTimeout(()=>{
                     this.$vux.loading.hide()
-                },500)
+                },1000)
             }
                          
         },
