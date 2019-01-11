@@ -272,7 +272,7 @@ export default ({
         if (arr[0].totalNumber && arr[0].totalPackageNumber) { //产品同时有箱和袋
             obj6 = {
                 label: "订单总数量",
-                value: arr[0].totalNumber + "箱" + arr[0].totalPackageNumber + "袋"
+                value: "<span style='color:red'>" + arr[0].totalNumber + "</span>" + "箱" + "<span style='color:red'>" + arr[0].totalPackageNumber + "</span>" + "袋"
             }
         } else if (arr[0].totalNumber && !arr[0].totalPackageNumber) { //只有箱
             obj6 = {
