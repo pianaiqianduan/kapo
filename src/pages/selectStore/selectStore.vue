@@ -87,15 +87,14 @@ export default {
         },
         resultClick(val){     //点击选择条目时触发、
             if(val.title != "没有匹配结果,请检查门店名称是否正确"){
-                this.$axios.get(this.url+'preorderKaController.do?getProductList',{         
+                this.$axios.get(this.url+'preorderKaController.do?getProductList',{    //获取对应门店的产品列表     
                     params:{
                         userName:localStorage.userName,
                         passWord:localStorage.passWord,
                         customerId:val.key
                     }
                 }).then(res=>{
-                    console.log(res)
-                    this.chooseStoreObj(val)    //选中的门店(title,key,customerCode,storescod)
+                    this.chooseStoreObj(val)    //调用mutation方法将选中的门店赋值给vuex中的state(title,key,customerCode,storescod)
                     this.storeName = val.title 
                     if(res.data.rows.length){
                         sessionStorage.productList = JSON.stringify(res.data.rows)
@@ -113,7 +112,6 @@ export default {
         },
         sure(){           //点击去下单按钮时触发
             if(this.storeName){
-                
                 sessionStorage.ischoose="choose"
                 this.$router.push({path:"/"})
             }else{

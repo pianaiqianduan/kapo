@@ -211,7 +211,7 @@ export default {
     },
     computed:{   //计算属性
         ...mapState(
-            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','chooseStoreObj','noChangeList']
+            ['index','isHave','pannelList','isShowDiv','isHaveArr','changeHeaderRight','isClick','getBagList','getChooseList','noChangeList']
         ),
     },
     created(){
@@ -269,25 +269,7 @@ export default {
             return(()=>{
                 this.showHeight = document.body.clientHeight;
             })()
-        }
-        //获取产品列表
-        this.$axios.get(this.url+'preorderKaController.do?getProductList',{         
-            params:{
-                userName:localStorage.userName,
-                passWord:localStorage.passWord,
-                customerId:this.chooseStoreObj.key
-            }
-        }).then(res=>{
-            console.log(res)
-            if(res.data.rows.length){
-                sessionStorage.productList = JSON.stringify(res.data.rows)
-            }
-        }).catch(e=>{
-            this.$vux.alert.show({
-                title: '注意',
-                content: '服务器出错,请稍后再试',
-            })
-        })     
+        }     
     },
 }
 function getResult(val){
